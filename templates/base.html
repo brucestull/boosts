@@ -54,10 +54,13 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary">
+                            {% comment %} Add 'if' tag to hide button if on 'signup' view. {% endcomment %}
+                            {% if not hide_signup_button %}
+                            <a class="button is-primary" href="{% url 'signup' %}">
                                 <strong>Sign up</strong>
                             </a>
-                            <a class="button is-light">Log in</a>
+                            {% endif %}
+                            <a class="button is-light" href="{% url 'login' %}">Log in</a>
                         </div>
                     </div>
                 </div>
