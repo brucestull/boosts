@@ -34,7 +34,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'django.contrib.admindocs',
+
+    'boosts.apps.BoostsConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,4 +126,4 @@ LOGOUT_REDIRECT_URL = 'home'
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
-THE_SITE_NAME = 'Inspirational Statements'
+THE_SITE_NAME = 'Boosts'
