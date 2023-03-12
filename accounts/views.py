@@ -18,6 +18,7 @@ class CustomLoginView(LoginView):
         """
         context = super().get_context_data(**kwargs)
         context['the_site_name'] = THE_SITE_NAME
+        context['hide_login_link'] = True
         return context
 
 
@@ -35,6 +36,8 @@ class SignUpView(CreateView):
         """
         context = super().get_context_data(**kwargs)
         context['the_site_name'] = THE_SITE_NAME
+        # Add 'hide_signup_link' to the context so that the signup link is hidden on the signup page but shown on other pages.
+        context['hide_signup_link'] = True
         return context
 
 
@@ -53,4 +56,5 @@ class UserUpdateView(UpdateView):
         """
         context = super().get_context_data(**kwargs)
         context['the_site_name'] = THE_SITE_NAME
+        context['hide_edit_profile_link'] = True
         return context
