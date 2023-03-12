@@ -7,76 +7,149 @@
           content="IE=edge" />
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
     <title>{% block title %} {% endblock title %}</title>
 </head>
 
 <body>
-    <section class="section">
-        <nav class="navbar"
-             role="navigation"
-             aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item"
-                   href="https://github.com/brucestull/inspirational-statements"
-                   target="_blank">
-                    <img src="https://flynntknapp-images.s3.us-east-2.amazonaws.com/ClaySculptureProfile.jpg"
-                         style="border-radius: 0.2em" />
-                </a>
-                <a role="button"
-                   class="navbar-burger"
-                   aria-label="menu"
-                   aria-expanded="false"
-                   data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div id="navbarBasicExample"
-                 class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item"
-                       href="{% url 'home' %}">Home</a>
-                    <a class="navbar-item">class="navbar-item"</a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">More</a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item">About</a>
-                            <a class="navbar-item">Jobs</a>
-                            <a class="navbar-item">Contact</a>
-                            <hr class="navbar-divider" />
-                            <a class="navbar-item">Report an issue</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            {% comment %} Add 'if' tag to hide button if on 'signup' view. {% endcomment %}
-                            {% if not hide_signup_button %}
-                            <a class="button is-primary" href="{% url 'signup' %}">
-                                <strong>Sign up</strong>
-                            </a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand"
+               href="https://github.com/FlynntKnapp/"
+               target="_blank">
+                <img src="https://flynntknapp-images.s3.us-east-2.amazonaws.com/LogoLightGreyBackground.png"
+                     style="border-radius: 0.2em; width: 2em" />
+            </a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"
+                 id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated and not hide_edit_profile_link %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="{% url 'edit_profile' user.id %}">
+                            Greetings, {{ user.username | capfirst }}!
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated and hide_edit_profile_link %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="{% url 'home' %}">
+                            Greetings, {{ user.username | capfirst }}!
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           aria-current="page"
+                           href="{% url 'home' %}">Home</a>
+                    </li>
+
+                    {% if not user.is_authenticated and not hide_login_link %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
+
+                    {% if not user.is_authenticated and not hide_signup_link %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'signup' %}">Signup</a>
+                    </li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            More
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if user.is_authenticated and not hide_edit_profile_link %}
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{% url 'edit_profile' user.id %}">Edit Profile</a>
+                            </li>
                             {% endif %}
-                            <a class="button is-light" href="{% url 'login' %}">Log in</a>
-                        </div>
-                    </div>
-                </div>
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{% url 'password_change' %}">Change Password</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{% url 'password_reset' %}">Reset Password</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   href="https://github.com/brucestull/inspirational-statements"
+                                   target="_blank">
+                                    Inspirational Statements Repository
+                                </a>
+                            </li>
+                            {% if user.is_staff %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{% url 'admin:index' %}">
+                                    Django Admin Interface
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex"
+                      role="search">
+                    <input class="form-control me-2"
+                           type="search"
+                           placeholder="Search"
+                           aria-label="Search">
+                    <button class="btn btn-outline-success"
+                            type="submit">Search</button>
+                </form>
             </div>
-        </nav>
-    </section>
-    <a href="https://github.com/brucestull/inspirational-statements"
-       target="_blank">
-        inspirational-statements Repository
-    </a>
-    {% if user.is_staff %}
-    {% include "staff.html" %}
-    {% endif %}
+        </div>
+    </nav>
+    <h2><code>user.html</code></h2>
     {% include "user.html" %}
+    <h2><code>block content</code></h2>
     {% block content %}
     {% endblock content %}
+    <h2><code>endblock content</code></h2>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
