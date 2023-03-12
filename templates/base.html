@@ -35,20 +35,11 @@
             <div class="collapse navbar-collapse"
                  id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% if user.is_authenticated and not hide_edit_profile_link %}
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link"
-                            href="{% url 'edit_profile' user.id %}">
+                        <span class="nav-link">
                             Greetings, {{ user.username | capfirst }}!
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if user.is_authenticated and hide_edit_profile_link %}
-                    <li class="nav-item">
-                        <a class="nav-link"
-                            href="{% url 'home' %}">
-                            Greetings, {{ user.username | capfirst }}!
-                        </a>
+                        </span>
                     </li>
                     {% endif %}
                     <li class="nav-item">
@@ -93,6 +84,7 @@
                                    href="{% url 'edit_profile' user.id %}">Edit Profile</a>
                             </li>
                             {% endif %}
+                            {% if user.is_authenticated%}
                             <li>
                                 <a class="dropdown-item"
                                    href="{% url 'password_change' %}">Change Password</a>
@@ -104,6 +96,18 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+                            {% endif %}
+                            {% if user.is_staff %}
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{% url 'admin:index' %}">
+                                    Django Admin Interface
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% endif %}
                             <li>
                                 <a class="dropdown-item"
                                    href="https://github.com/brucestull/inspirational-statements"
@@ -111,18 +115,6 @@
                                     Inspirational Statements Repository
                                 </a>
                             </li>
-                            {% if user.is_staff %}
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item"
-                                   href="{% url 'admin:index' %}">
-                                    Django Admin Interface
-                                </a>
-                            </li>
-                            {% endif %}
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -141,8 +133,6 @@
             </div>
         </div>
     </nav>
-    <h2><code>user.html</code></h2>
-    {% include "user.html" %}
     <h2><code>block content</code></h2>
     {% block content %}
     {% endblock content %}
