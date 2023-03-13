@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ the_site_name }}
+-
+{{ page_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2>Create a Statement</h2>
+    <form method='post'>
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+        <button type="submit"
+                class="btn btn-primary">Create Statement</button>
+    </form>
+</div>
+{% endblock content %}

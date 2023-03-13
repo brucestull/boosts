@@ -3,8 +3,9 @@ from django.urls import path
 from . import views
 
 
-app_name = 'boosts'
+app_name = "boosts"
 
 urlpatterns = [
-    path('', views.StatementListView.as_view(), name='statement-list'),
+    path("statements/", views.StatementListView.as_view(), name="statement-list"),
+    path("create/", views.StatementCreateView.as_view(), name="statement-create"),
 ]

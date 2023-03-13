@@ -1,4 +1,4 @@
-# Pagination Examples
+# Pagination
 
 ```html
 {% if is_paginated %}
@@ -30,7 +30,4 @@
     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
 </p>
 {% endif %}
-```
-
-```html
 ```
