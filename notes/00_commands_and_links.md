@@ -21,6 +21,13 @@
 * `heroku run python manage.py createsuperuser --email FlynntKnapp@email.app --username FlynntKnapp`
 * `heroku login`
 
+## Development Server Links
+
+* Server Root:
+  * <http://localhost:8000/>
+* Boosts:
+  * <http://localhost:8000/boosts/>
+
 ## Production deployment links
 
 * Server Root:

@@ -17,3 +17,4 @@
 * [Get started with Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 * <https://getbootstrap.com/docs/5.3/components/>
     * <https://getbootstrap.com/docs/5.3/components/navbar/>
+    * <https://getbootstrap.com/docs/5.3/components/pagination/>
