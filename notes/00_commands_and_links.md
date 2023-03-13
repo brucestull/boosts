@@ -27,6 +27,9 @@
   * <http://localhost:8000/>
 * Boosts:
   * <http://localhost:8000/boosts/>
+  * <http://localhost:8000/boosts/statements/>
+* API:
+  * <http://localhost:8000/api/v1/>
 
 ## Production deployment links
 

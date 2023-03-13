@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
 
     'boosts.apps.BoostsConfig',
+
+    'rest_framework',
+
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
