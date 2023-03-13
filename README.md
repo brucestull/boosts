@@ -18,3 +18,12 @@
 * <https://getbootstrap.com/docs/5.3/components/>
     * <https://getbootstrap.com/docs/5.3/components/navbar/>
     * <https://getbootstrap.com/docs/5.3/components/pagination/>
+* <https://getbootstrap.com/docs/5.3/forms/>
+    * <https://getbootstrap.com/docs/5.3/forms/form-control/>
+    * <https://getbootstrap.com/docs/5.3/forms/layout/>
+
+### Django
+
+* [`django.views.generic.edit.CreateView`](https://docs.djangoproject.com/en/4.1/ref/class-based-views/generic-editing/#django.views.generic.edit.CreateView)
+* [The Forms API](https://docs.djangoproject.com/en/4.1/ref/forms/api/)
+* [`django.forms.Field`](https://docs.djangoproject.com/en/4.1/ref/forms/fields/#django.forms.Field)

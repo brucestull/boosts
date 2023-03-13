@@ -27,6 +27,9 @@
     </nav>
     {% endif %}
 
+    <a href="{% url 'boosts:statement-create' %}"
+       class="btn btn-primary">Create another Inspirational Statement</a>
+
     <ul class="list-group">
         {% for statement in object_list %}
         <li class="list-group-item">{{ statement.id }} : {{ statement.body }}</li>
