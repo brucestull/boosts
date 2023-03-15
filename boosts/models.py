@@ -4,10 +4,10 @@ from django.urls import reverse
 from config.settings.common import AUTH_USER_MODEL
 
 
-class Statement(models.Model):
+class Inspirational(models.Model):
     body = models.CharField(max_length=500)
     author = models.ForeignKey(
-        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="statements"
+        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="inspirationals"
     )
     created = models.DateTimeField(auto_now_add=True)
 

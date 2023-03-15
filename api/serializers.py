@@ -1,13 +1,13 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from boosts.models import Statement
+from boosts.models import Inspirational
 
 
 class NestedStatementSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Statement
+        model = Inspirational
         fields = [
             'id',
             'body',
@@ -20,7 +20,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     """
 
     statements_detail = NestedStatementSerializer(
-        source='statements',
+        source='inspirationals',
         many=True,
         read_only=True,
     )
