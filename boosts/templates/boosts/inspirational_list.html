@@ -9,7 +9,7 @@
 {% block content %}
 
 <div class="container-fluid">
-    <h2>Statements</h2>
+    <h2>Inspirationals</h2>
 
     {% if is_paginated%}
     <nav aria-label="Page navigation">
@@ -28,13 +28,13 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-    <a href="{% url 'boosts:statement-create' %}"
-       class="btn btn-primary">Create another Inspirational Statement</a>
+    <a href="{% url 'boosts:inspirational-create' %}"
+       class="btn btn-primary">Create another Inspirational</a>
     {% endif %}
 
     <ul class="list-group">
-        {% for statement in object_list %}
-        <li class="list-group-item">{{ statement.id }} : {{ statement.body }}</li>
+        {% for inspirational in object_list %}
+        <li class="list-group-item">{{ inspirational.id }} : {{ inspirational.body }}</li>
         {% endfor %}
     </ul>
 

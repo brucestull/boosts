@@ -1,15 +1,15 @@
 from django import forms
 from django.forms import ModelForm
 
-from boosts.models import Statement
+from boosts.models import Inspirational
 
 
-class StatementForm(ModelForm):
+class InspirationalForm(ModelForm):
     """
-    ModelForm for the Statement model. This form uses bootstrap.
+    ModelForm for the Inspirational model. This form uses bootstrap.
     """
     class Meta:
-        model = Statement
+        model = Inspirational
         fields = ["body"]
         widgets = {
             "body": forms.Textarea(

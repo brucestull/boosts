@@ -6,6 +6,6 @@ from . import views
 app_name = "boosts"
 
 urlpatterns = [
-    path("statements/", views.StatementListView.as_view(), name="statement-list"),
-    path("create/", views.StatementCreateView.as_view(), name="statement-create"),
+    path("inspirationals/", views.InspirationalListView.as_view(), name="inspirational-list"),
+    path("create/", views.InspirationalCreateView.as_view(), name="inspirational-create"),
 ]

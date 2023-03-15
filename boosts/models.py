@@ -15,4 +15,4 @@ class Inspirational(models.Model):
         return self.author.username + " : " + str(self.id) + " - " + self.body[:24]
 
     def get_absolute_url(self):
-        return reverse("boosts:statement_detail", kwargs={"pk": self.pk})
+        return reverse("boosts:inspirational_detail", kwargs={"pk": self.pk})

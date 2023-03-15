@@ -2,31 +2,31 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 
-from boosts.models import Statement
+from boosts.models import Inspirational
 from config.settings.common import THE_SITE_NAME
-from boosts.forms import StatementForm
+from boosts.forms import InspirationalForm
 
-STATEMENT_LIST_PAGE_TITLE = "Statements"
-STATEMENT_CREATE_PAGE_TITLE = "Create a Statement"
+STATEMENT_LIST_PAGE_TITLE = "Inspirationals"
+STATEMENT_CREATE_PAGE_TITLE = "Create a Inspirational"
 
 
-class StatementListView(ListView):
+class InspirationalListView(ListView):
     """
-    ListView for the Statement model.
+    ListView for the Inspirational model.
     """
 
     paginate_by = 10
 
-    # We are not using 'model = Statement' attribute since we want only
-    # the `Statements` for the current user.
+    # We are not using 'model = Inspirational' attribute since we want only
+    # the `Inspirationals` for the current user.
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            queryset = Statement.objects.filter(author=self.request.user).order_by(
+            queryset = Inspirational.objects.filter(author=self.request.user).order_by(
                 "-created"
             )
             return queryset
         else:
-            queryset = Statement.objects.none()
+            queryset = Inspirational.objects.none()
             return queryset
 
     def get_context_data(self, **kwargs):
@@ -36,14 +36,14 @@ class StatementListView(ListView):
         return context
 
 
-class StatementCreateView(CreateView):
+class InspirationalCreateView(CreateView):
     """
-    CreateView for the Statement model.
+    CreateView for the Inspirational model.
     """
 
-    form_class = StatementForm
-    template_name = "boosts/statement_form.html"
-    success_url = reverse_lazy("boosts:statement-list")
+    form_class = InspirationalForm
+    template_name = "boosts/inspirational_form.html"
+    success_url = reverse_lazy("boosts:inspirational-list")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -53,5 +53,5 @@ class StatementCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = STATEMENT_CREATE_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
-        context["hide_statement_create_link"] = True
+        context["hide_inspirational_create_link"] = True
         return context

@@ -27,7 +27,7 @@
   * <http://localhost:8000/>
 * Boosts:
   * <http://localhost:8000/boosts/>
-  * <http://localhost:8000/boosts/statements/>
+  * <http://localhost:8000/boosts/inspirationals/>
 * API:
   * <http://localhost:8000/api/v1/>
 

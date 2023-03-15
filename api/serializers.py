@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from boosts.models import Inspirational
 
 
-class NestedStatementSerializer(serializers.ModelSerializer):
+class NestedInspirationalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Inspirational
@@ -19,7 +19,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     Serializer for the current user.
     """
 
-    statements_detail = NestedStatementSerializer(
+    inspirationals_detail = NestedInspirationalSerializer(
         source='inspirationals',
         many=True,
         read_only=True,
@@ -30,7 +30,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'username',
-            'statements_detail',
+            'inspirationals_detail',
         )
         extra_kwargs = {
             'id': {'read_only': True},

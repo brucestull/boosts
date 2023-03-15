@@ -44,7 +44,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{% url 'api:current-user' %}">Statements-API</a>
+                               href="{% url 'api:current-user' %}">Inspirationals-API</a>
                         </li>
                         {% endif %}
                         <li class="nav-item">
@@ -55,7 +55,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{% url 'boosts:statement-list' %}">Statements</a>
+                               href="{% url 'boosts:inspirational-list' %}">Inspirationals</a>
                         </li>
 
                         {% if not user.is_authenticated and not hide_login_link %}
@@ -92,12 +92,12 @@
                                 {% if user.is_authenticated %}
                                 <li>
                                     <a class="dropdown-item"
-                                       href="{% url 'boosts:statement-list' %}">Statements</a>
+                                       href="{% url 'boosts:inspirational-list' %}">Inspirationals</a>
                                 </li>
-                                {% if not hide_statement_create_link %}
+                                {% if not hide_inspirational_create_link %}
                                 <li>
                                     <a class="dropdown-item"
-                                       href="{% url 'boosts:statement-create' %}">Create Statement</a>
+                                       href="{% url 'boosts:inspirational-create' %}">Create Inspirational</a>
                                 </li>
                                 {% endif %}
                                 <li>
@@ -141,7 +141,7 @@
                                     <a class="dropdown-item"
                                        href="https://github.com/brucestull/inspirational-statements"
                                        target="_blank">
-                                        Inspirational Statements Repository
+                                        inspirationals Repository
                                     </a>
                                 </li>
                             </ul>
