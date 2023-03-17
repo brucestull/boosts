@@ -5,7 +5,11 @@ from config.settings.common import AUTH_USER_MODEL
 
 
 class Inspirational(models.Model):
-    body = models.CharField(max_length=500)
+    body = models.CharField(
+        max_length=500,
+        help_text="Required. 500 characters or fewer.",
+        verbose_name="Inspirational Body Text",
+    )
     author = models.ForeignKey(
         AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -15,6 +19,3 @@ class Inspirational(models.Model):
 
     def __str__(self):
         return self.author.username + " : " + str(self.id) + " - " + self.body[:24]
-
-    def get_absolute_url(self):
-        return reverse("boosts:inspirational_detail", kwargs={"pk": self.pk})
