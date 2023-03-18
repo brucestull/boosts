@@ -2,7 +2,10 @@ from django.test import TestCase
 from django.urls import reverse
 
 from boosts.models import Inspirational
+from boosts.forms import InspirationalForm
 from accounts.models import CustomUser
+
+THE_SITE_NAME = "Boosts"
 
 USERNAME_REGISTRATION_ACCEPTED_TRUE = "RegisteredUser"
 USERNAME_REGISTRATION_ACCEPTED_FALSE = "UnregisteredUser"
@@ -15,8 +18,14 @@ NUMBER_OF_INSPIRATIONALS = 13
 INSPIRATIONAL_LIST_URL = "/boosts/inspirationals/"
 INSPIRATIONAL_LIST_VIEW_NAME = "boosts:inspirational-list"
 INSPIRATIONAL_LIST_TEMPLATE = "boosts/inspirational_list.html"
+INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirational List"
 
-PAGE_TITLE_INSPIRATIONAL_LIST = "Inspirational List"
+INSPIRATIONAL_CREATE_URL = "/boosts/create/"
+INSPIRATIONAL_CREATE_VIEW_NAME = "boosts:inspirational-create"
+INSPIRATIONAL_CREATE_TEMPLATE = "boosts/inspirational_form.html"
+INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
+
+INSPIRATIONAL_BODY = "This is a test inspirational body."
 
 
 class InspirationalListViewTest(TestCase):
@@ -101,6 +110,21 @@ class InspirationalListViewTest(TestCase):
         self.assertTrue(response.context["is_paginated"] == True)
         self.assertTrue(len(response.context["object_list"]) == 10)
 
+    def test_view_returns_inspirational_objects(self):
+        """
+        View should return `Inspirational` objects.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_LIST_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("object_list" in response.context)
+        self.assertTrue(len(response.context["object_list"]) == 10)
+        for object in response.context["object_list"]:
+            self.assertIsInstance(object, Inspirational)
+
     def test_view_returns_all_inspirationals(self):
         """
         View should return all `Inspirational`s.
@@ -145,11 +169,134 @@ class InspirationalListViewTest(TestCase):
         response = self.client.get(INSPIRATIONAL_LIST_URL)
         self.assertEqual(response.status_code, 200)
 
+class InspirationalCreateViewTest(TestCase):
+    """
+    Test `InspirationalCreateView`.
+    """
 
+    @classmethod
+    def setUpTestData(cls):
+        """
+        Create test data.
+        """
+        # Create users for testing.
+        cls.user_registration_accepted_true = CustomUser.objects.create_user(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+            registration_accepted=True,
+        )
+        cls.user_registration_accepted_false = CustomUser.objects.create_user(
+            username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+            password=PASSWORD_FOR_TESTING,
+            registration_accepted=False,
+        )
 
+    def test_view_uses_proper_form_class(self):
+        """
+        View should use the proper form class.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("form" in response.context)
+        self.assertIsInstance(response.context["form"], InspirationalForm)
 
+    def test_view_uses_proper_template(self):
+        """
+        View should use the proper template.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertTemplateUsed(response, INSPIRATIONAL_CREATE_TEMPLATE)
 
+    def test_view_routes_to_proper_success_url(self):
+        """
+        View should route to the proper success URL.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.post(
+            INSPIRATIONAL_CREATE_URL,
+            data={
+                "body": INSPIRATIONAL_BODY,
+                "author": "Test author",
+            },
+        )
+        self.assertRedirects(response, INSPIRATIONAL_LIST_URL)
 
+    def test_view_redirects_if_user_not_logged_in(self):
+        """
+        View should redirect if user is not logged in.
+        """
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertTrue(response.status_code, 302)
+        self.assertRedirects(response, f"{LOGIN_URL}?next={INSPIRATIONAL_CREATE_URL}")
+
+    def test_view_returns_403_if_user_registration_accepted_false(self):
+        """
+        View should return 403 if user registration_accepted False.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_returns_200_if_user_registration_accepted_true(self):
+        """
+        View should return 200 if user registration_accepted True.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_context_contains_page_title(self):
+        """
+        View context should contain page title.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertTrue("page_title" in response.context)
+        self.assertEqual(response.context["page_title"], INSPIRATIONAL_CREATE_PAGE_TITLE)
+
+    def test_view_context_contains_the_site_name(self):
+        """
+        View context should contain the site name.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertTrue("the_site_name" in response.context)
+        self.assertEqual(response.context["the_site_name"], THE_SITE_NAME)
+
+    def test_view_context_contains_hide_inspirational_create_link(self):
+        """
+        View context should contain hide_inspirational_create_link.
+        """
+        login = self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(INSPIRATIONAL_CREATE_URL)
+        self.assertTrue("hide_inspirational_create_link" in response.context)
+        self.assertEqual(response.context["hide_inspirational_create_link"], True)
 
 
 
@@ -212,4 +359,4 @@ class InspirationalListViewTest(TestCase):
     #     )
     #     response = self.client.get(INSPIRATIONAL_LIST_URL)
     #     self.assertEqual(response.status_code, 200)
-    #     self.assertContains(response, PAGE_TITLE_INSPIRATIONAL_LIST)
+    #     self.assertContains(response, INSPIRATIONAL_LIST_PAGE_TITLE)

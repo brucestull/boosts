@@ -47,7 +47,7 @@ class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class InspirationalCreateView(CreateView):
+class InspirationalCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
     CreateView for the Inspirational model.
     """
@@ -55,6 +55,14 @@ class InspirationalCreateView(CreateView):
     form_class = InspirationalForm
     template_name = "boosts/inspirational_form.html"
     success_url = reverse_lazy("boosts:inspirational-list")
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`. Only users who pass this test can access this view.
+
+        This function is used by the `UserPassesTestMixin` to control access to this view.
+        """
+        return self.request.user.registration_accepted
 
     def form_valid(self, form):
         form.instance.author = self.request.user
