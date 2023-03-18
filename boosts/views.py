@@ -1,16 +1,17 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from boosts.models import Inspirational
 from config.settings.common import THE_SITE_NAME
 from boosts.forms import InspirationalForm
 
-STATEMENT_LIST_PAGE_TITLE = "Inspirationals"
-STATEMENT_CREATE_PAGE_TITLE = "Create a Inspirational"
+INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
+INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
 
 
-class InspirationalListView(ListView):
+class InspirationalListView(LoginRequiredMixin, ListView):
     """
     ListView for the Inspirational model.
     """
@@ -21,9 +22,9 @@ class InspirationalListView(ListView):
     # the `Inspirationals` for the current user.
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            queryset = Inspirational.objects.filter(author=self.request.user).order_by(
-                "-created"
-            )
+            queryset = Inspirational.objects.filter(
+                author=self.request.user,
+            ).order_by("-created")
             return queryset
         else:
             queryset = Inspirational.objects.none()
@@ -31,7 +32,7 @@ class InspirationalListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["page_title"] = STATEMENT_LIST_PAGE_TITLE
+        context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
         return context
 
@@ -51,7 +52,8 @@ class InspirationalCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["page_title"] = STATEMENT_CREATE_PAGE_TITLE
+        context["page_title"] = INSPIRATIONAL_CREATE_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
+        # Hide the "Create Inspirational" link in the navbar since we are already on the page.
         context["hide_inspirational_create_link"] = True
         return context
