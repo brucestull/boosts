@@ -15,7 +15,9 @@ class Inspirational(models.Model):
         on_delete=models.CASCADE,
         related_name="inspirationals",
     )
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     def __str__(self):
         return self.author.username + " : " + str(self.id) + " - " + self.body[:24]
