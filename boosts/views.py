@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from boosts.models import Inspirational
 from config.settings.common import THE_SITE_NAME
@@ -11,12 +11,22 @@ INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
 INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
 
 
-class InspirationalListView(LoginRequiredMixin, ListView):
+class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     ListView for the Inspirational model.
+
+    This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
     """
 
     paginate_by = 10
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`. Only users who pass this test can access this view.
+
+        This function is used by the `UserPassesTestMixin` to control access to this view.
+        """
+        return self.request.user.registration_accepted
 
     # We are not using 'model = Inspirational' attribute since we want only
     # the `Inspirationals` for the current user.
