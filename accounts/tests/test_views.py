@@ -353,20 +353,3 @@ class UserUpdateViewTest(TestCase):
         self.assertIn("hide_edit_profile_link", response.context)
         self.assertTrue(response.context["hide_edit_profile_link"])
 
-
-# login = self.client.login(
-#     username=A_TEST_USERNAME,
-#     password=A_TEST_PASSWORD,
-# )
-# self.assertTrue(login)
-# response = self.client.get(USER_UPDATE_VIEW_URL)
-# self.assertEqual(response.status_code, 200)
-
-# a_second_test_user = CustomUser.objects.create_user(
-#     username=A_SECOND_TEST_USERNAME,
-#     password=A_SECOND_TEST_PASSWORD,
-# )
-# login = self.client.login(username=A_SECOND_TEST_USERNAME, password=A_SECOND_TEST_PASSWORD)
-# self.assertTrue(login)
-# response = self.client.get(reverse(USER_UPDATE_VIEW_NAME, kwargs={"pk": a_second_test_user.pk}))
-# self.assertEqual(response.status_code, 200)
