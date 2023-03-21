@@ -16,7 +16,7 @@ THE_SITE_NAME = "Boosts"
 
 SIGN_UP_VIEW_URL = "/accounts/signup/"
 SIGN_UP_VIEW_NAME = "signup"
-SIGN_UP_TEMPLATE = "registration/signup.html"
+SIGN_UP_VIEW_TEMPLATE = "registration/signup.html"
 
 CUSTOM_LOGIN_VIEW_URL = "/accounts/login/"
 CUSTOM_LOGIN_VIEW_NAME = "login"
@@ -35,23 +35,23 @@ class SignUpViewTest(TestCase):
 
     def test_url_exists_at_desired_location(self):
         """
-        `CustomUser` sign up view should be accessible at `/accounts/signup/`.
+        `accounts` sign up view should be accessible at `/accounts/signup/`.
         """
         response = self.client.get(SIGN_UP_VIEW_URL)
         self.assertEqual(response.status_code, 200)
 
     def test_url_accessible_by_name(self):
         """
-        `CustomUser` sign up view should be accessible by name.
+        `accounts` sign up view should be accessible by name.
         """
         response = self.client.get(reverse(SIGN_UP_VIEW_NAME))
         self.assertEqual(response.status_code, 200)
 
     def test_uses_correct_form(self):
         """
-        `CustomUser` sign up view should use `CustomUserCreationForm`.
+        `accounts` sign up view should use `CustomUserCreationForm`.
         """
-        response = self.client.get(reverse(SIGN_UP_VIEW_NAME))
+        response = self.client.get(SIGN_UP_VIEW_URL)
         self.assertEqual(response.status_code, 200)
         self.assertIn("form", response.context)
         self.assertEqual(
@@ -60,7 +60,7 @@ class SignUpViewTest(TestCase):
 
     def test_redirects_to_correct_view_on_success(self):
         """
-        `CustomUser` sign up view should redirect to the `login` view on success.
+        `accounts` sign up view should redirect to the `login` view on success.
         """
         response = self.client.post(
             reverse(SIGN_UP_VIEW_NAME),
@@ -80,15 +80,15 @@ class SignUpViewTest(TestCase):
 
     def test_uses_correct_template(self):
         """
-        `CustomUser` sign up view should use `registration/signup.html` template.
+        `accounts` sign up view should use `registration/signup.html` template.
         """
         response = self.client.get(SIGN_UP_VIEW_URL)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, SIGN_UP_TEMPLATE)
+        self.assertTemplateUsed(response, SIGN_UP_VIEW_TEMPLATE)
 
     def test_has_the_site_name_in_context(self):
         """
-        `CustomUser` sign up view should have `the_site_name` in the context.
+        `accounts` sign up view should have `the_site_name` in the context.
         """
         response = self.client.get(SIGN_UP_VIEW_URL)
         self.assertEqual(response.status_code, 200)
@@ -97,7 +97,7 @@ class SignUpViewTest(TestCase):
 
     def test_has_hide_signup_link_in_context(self):
         """
-        `CustomUser` sign up view should have `hide_signup_link` in the context.
+        `accounts` sign up view should have `hide_signup_link` in the context.
         """
         response = self.client.get(SIGN_UP_VIEW_URL)
         self.assertEqual(response.status_code, 200)
@@ -112,21 +112,21 @@ class CustomLoginViewTest(TestCase):
 
     def test_url_exists_at_desired_location(self):
         """
-        `CustomUser` login view should be accessible at `/accounts/login/`.
+        `accounts` login view should be accessible at `/accounts/login/`.
         """
         response = self.client.get(CUSTOM_LOGIN_VIEW_URL)
         self.assertEqual(response.status_code, 200)
 
     def test_url_accessible_by_name(self):
         """
-        `CustomUser` login view should be accessible by name.
+        `accounts` login view should be accessible by name.
         """
         response = self.client.get(reverse(CUSTOM_LOGIN_VIEW_NAME))
         self.assertEqual(response.status_code, 200)
 
     def test_has_the_site_name_in_context(self):
         """
-        `CustomUser` login view should have `the_site_name` in the context.
+        `accounts` login view should have `the_site_name` in the context.
         """
         response = self.client.get(CUSTOM_LOGIN_VIEW_URL)
         self.assertEqual(response.status_code, 200)
@@ -135,7 +135,7 @@ class CustomLoginViewTest(TestCase):
 
     def test_has_hide_login_link_in_context(self):
         """
-        `CustomUser` login view should have `hide_login_link` in the context.
+        `accounts` login view should have `hide_login_link` in the context.
         """
         response = self.client.get(CUSTOM_LOGIN_VIEW_URL)
         self.assertEqual(response.status_code, 200)
@@ -161,7 +161,7 @@ class UserUpdateViewTest(TestCase):
 
     def test_url_redirects_for_non_authenticated_user(self):
         """
-        `CustomUser` update view should redirect to the `login` view for non-authenticated user.
+        `accounts` update view should redirect to the `login` view for non-authenticated user.
         """
         response = self.client.get(
             reverse(
@@ -179,7 +179,7 @@ class UserUpdateViewTest(TestCase):
 
     def test_url_exists_for_authenticated_user(self):
         """
-        `CustomUser` update view should be accessible at `/accounts/<user.pk>/edit/`.
+        `accounts` update view should be accessible at `/accounts/<user.pk>/edit/`.
         """
 
         login = self.client.login(
@@ -187,17 +187,12 @@ class UserUpdateViewTest(TestCase):
             password=A_TEST_PASSWORD,
         )
         self.assertTrue(login)
-        response = self.client.get(
-            reverse(
-                USER_UPDATE_VIEW_NAME,
-                kwargs={"pk": self.a_test_user.pk},
-            )
-        )
+        response = self.client.get(USER_UPDATE_VIEW_URL)
         self.assertEqual(response.status_code, 200)
 
     def test_url_accessible_by_name_for_authenticated_user(self):
         """
-        `CustomUser` update view should be accessible by name.
+        `accounts` update view should be accessible by name.
         """
         login = self.client.login(
             username=self.a_test_user.username,
@@ -220,7 +215,7 @@ class UserUpdateViewTest(TestCase):
     # This is testing the `get_object` method of the `UserUpdateView` view.
     def test_context_object_is_current_user(self):
         """
-        `CustomUser` update view should use `CustomUser` model.
+        `accounts` update view should use `CustomUser` model.
         """
         login = self.client.login(
             username=self.a_test_user.username,
@@ -238,7 +233,7 @@ class UserUpdateViewTest(TestCase):
 
     def test_object_is_custom_user_instance(self):
         """
-        `CustomUser` update view should use `CustomUser` model.
+        `accounts` update view should use `CustomUser` model.
         """
         login = self.client.login(
             username=self.a_test_user.username,
@@ -253,23 +248,19 @@ class UserUpdateViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context["object"], CustomUser)
+
     ####################################################################
 
-    def test_uses_correct_form_class(self):
+    def test_uses_correct_form(self):
         """
-        `CustomUser` update view should use `CustomUserUpdateForm`.
+        `accounts` update view should use `CustomUserUpdateForm`.
         """
         login = self.client.login(
             username=self.a_test_user.username,
             password=A_TEST_PASSWORD,
         )
         self.assertTrue(login)
-        response = self.client.get(
-            reverse(
-                USER_UPDATE_VIEW_NAME,
-                kwargs={"pk": self.a_test_user.pk},
-            )
-        )
+        response = self.client.get(USER_UPDATE_VIEW_URL)
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context["form"], CustomUserChangeForm)
 
@@ -302,7 +293,7 @@ class UserUpdateViewTest(TestCase):
 
     def test_uses_correct_template(self):
         """
-        `CustomUser` update view should use `user_update.html` template.
+        `accounts` update view should use `user_update.html` template.
         """
         login = self.client.login(
             username=self.a_test_user.username,
@@ -317,7 +308,7 @@ class UserUpdateViewTest(TestCase):
 
     def test_has_the_site_name_in_context(self):
         """
-        `CustomUser` update view should have `the_site_name` in the context.
+        `accounts` update view should have `the_site_name` in the context.
         """
         login = self.client.login(
             username=self.a_test_user.username,
@@ -336,7 +327,7 @@ class UserUpdateViewTest(TestCase):
 
     def test_has_hide_edit_profile_link_in_context(self):
         """
-        `CustomUser` update view should have `hide_edit_profile_link` in the context.
+        `accounts` update view should have `hide_edit_profile_link` in the context.
         """
         login = self.client.login(
             username=self.a_test_user.username,
@@ -352,4 +343,3 @@ class UserUpdateViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("hide_edit_profile_link", response.context)
         self.assertTrue(response.context["hide_edit_profile_link"])
-
