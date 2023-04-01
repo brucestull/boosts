@@ -73,10 +73,9 @@ class BaseTemplateHttpResponseTest(TestCase):
 
         self.assertNotContains(response, EDIT_URL_PARTIAL)
 
-
-        self.assertNotContains(response, API_URL_ROOT)
         self.assertNotContains(response, INSPIRATIONALS_LIST_URL)
         self.assertNotContains(response, INSPIRATIONALS_CREATE_URL)
+        self.assertNotContains(response, API_URL_ROOT)
 
     def test_user_logged_in(self):
         """
@@ -133,6 +132,8 @@ class BaseTemplateHttpResponseTest(TestCase):
         response = self.client.get(HOME_PAGE_URL)
         self.assertContains(response, LOGOUT_URL)
 
-        self.assertContains(response, API_URL_ROOT)
+        # self.assertTrue(re.search(rb'\b/accounts/\d+/edit/', response.content))
+
         self.assertContains(response, INSPIRATIONALS_LIST_URL)
         self.assertContains(response, INSPIRATIONALS_CREATE_URL)
+        self.assertContains(response, API_URL_ROOT)
