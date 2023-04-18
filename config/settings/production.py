@@ -1,29 +1,32 @@
-from config.settings.common import *
-
 import os
+
+from config.settings.common import *
+from utils import get_database_config_variables
 
 
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['flynnt-knapp-djangostarter.herokuapp.com']
+ALLOWED_HOSTS = ['flynnt-knapp-boosts.herokuapp.com']
 
 
 MIDDLEWARE = MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware']
 
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
+database_config_variables = get_database_config_variables(
+    os.environ.get('DATABASE_URL')
+)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'),
-        'HOST': os.environ.get('DATABASE_HOST'),
-        'PORT': os.environ.get('DATABASE_PORT'),
-        'USER': os.environ.get('DATABASE_USER'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'NAME': database_config_variables['DATABASE_NAME'],
+        'HOST': database_config_variables['DATABASE_HOST'],
+        'PORT': database_config_variables['DATABASE_PORT'],
+        'USER': database_config_variables['DATABASE_USER'],
+        'PASSWORD': database_config_variables['DATABASE_PASSWORD'],
     }
 }
 
