@@ -1,4 +1,11 @@
-# Inpirational Statements
+# Boosts
+
+* A Django application for a user to create, read, update, and delete (CRUD) "Boost"s.
+* A "Boost" is a short inspirational statement, quote, or other message that a user can post to their profile.
+* A user can receive a random "Boost" each day.
+* A user can send an email or text message to receive a random "Boost" at any time.
+* A user can share their "Boost"s with other users.
+
 
 ## Resources
 
