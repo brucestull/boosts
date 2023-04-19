@@ -18,6 +18,7 @@
 * <https://pypi.org/project/whitenoise/>
 * <https://pypi.org/project/psycopg2/>
 * <https://pypi.org/project/tzdata/>
+* <https://pypi.org/project/python-dotenv/>
 
 ### CSS Framework
 
