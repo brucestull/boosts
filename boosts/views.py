@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -86,17 +87,24 @@ def send_inspirational(request, pk):
     """
     Send an inspirational quote to `MY_VALIDATED_EMAIL`.
     """
+    # Get the inspirational quote from the pk sent in the URL:
     inspirational = get_object_or_404(Inspirational, pk=pk)
-    # Send the inspirational quote to `MY_VALIDATED_EMAIL`:
+    # Get the current site domain:
+    current_site = get_current_site(request)
+    plain_text_body = (
+        f"""
+            {inspirational.body}
+            \n
+            Sent from https://{current_site.domain} by {request.user.username} ({request.user.email}).
+        """
+    )
+    # Send the inspirational quote to the user's beastie:
     send_mail(
         f"Inspirational Quote from your Beastie: {request.user.username}",
-        f"""
-        {inspirational.body}
-        \n
-        Sent from {THE_SITE_NAME} by {request.user.username} ({request.user.email}).
-        """,
+        plain_text_body,
         request.user.email,
         [request.user.beastie.email],
+        # html_message=plain_text_body,
         fail_silently=False,
     )
     messages.success(request, f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!")
