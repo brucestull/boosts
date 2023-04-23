@@ -85,11 +85,11 @@ class InspirationalCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
 def send_inspirational(request, pk):
     """
-    Send an inspirational quote to `MY_VALIDATED_EMAIL`.
+    Send an inspirational quote to the User's Beastie (a User which has been designated as the User's Beastie).
     """
     # Get the inspirational quote from the pk sent in the URL:
     inspirational = get_object_or_404(Inspirational, pk=pk)
-    # Get the current site domain:
+    # Get the current site domain. This will resolve to a localhost in DEV and to the production domain in PROD:
     current_site = get_current_site(request)
     plain_text_body = (
         f"""
