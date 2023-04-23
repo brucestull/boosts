@@ -12,6 +12,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = (
         "username",
+        "beastie",
         # "email",
         "registration_accepted",
         "is_staff",
@@ -30,7 +31,10 @@ class CustomUserAdmin(UserAdmin):
 
         # Create list of single tuple for `registration_accepted`:
         moderator_permissions_as_list = [
-            ("Moderator Permissions", {"fields": ("registration_accepted",)})
+            ("Moderator Permissions", {"fields": (
+                "registration_accepted",
+                "beastie",
+            )})
         ]
 
         # Combine the two lists and return the result:

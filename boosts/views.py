@@ -1,11 +1,16 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+import os
+
+from boosts.forms import InspirationalForm
 from boosts.models import Inspirational
 from config.settings.common import THE_SITE_NAME
-from boosts.forms import InspirationalForm
 
 INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
 INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
@@ -18,7 +23,7 @@ class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
     """
 
-    paginate_by = 10
+    paginate_by = 3
 
     def test_func(self):
         """
@@ -75,3 +80,25 @@ class InspirationalCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
         # Hide the "Create Inspirational" link in the navbar since we are already on the page.
         context["hide_inspirational_create_link"] = True
         return context
+
+
+def send_inspirational(request, pk):
+    """
+    Send an inspirational quote to `MY_VALIDATED_EMAIL`.
+    """
+    inspirational = get_object_or_404(Inspirational, pk=pk)
+    # Send the inspirational quote to `MY_VALIDATED_EMAIL`:
+    send_mail(
+        f"Inspirational Quote from your Beastie: {request.user.username}",
+        f"""
+        {inspirational.body}
+        \n
+        Sent from {THE_SITE_NAME} by {request.user.username} ({request.user.email}).
+        """,
+        request.user.email,
+        [request.user.beastie.email],
+        fail_silently=False,
+    )
+    messages.success(request, f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!")
+    return redirect("boosts:inspirational-list")
+

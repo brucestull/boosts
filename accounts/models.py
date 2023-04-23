@@ -9,6 +9,12 @@ class CustomUser(AbstractUser):
     registration_accepted = models.BooleanField(
         default=False,
     )
+    beastie = models.ForeignKey(
+        "accounts.CustomUser",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         """

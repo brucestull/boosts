@@ -11,6 +11,20 @@
 <div class="container-fluid">
     <h2>Inspirationals</h2>
 
+    {% if messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+                <span>{{ message }}</span>
+            {% endfor %}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+                ></button>
+        </div>
+    {% endif %}
+
     {% if is_paginated %}
     <nav aria-label="Page navigation">
         <ul class="pagination">
@@ -34,7 +48,21 @@
 
     <ul class="list-group">
         {% for inspirational in object_list %}
-        <li class="list-group-item">{{ inspirational.id }} : {{ inspirational.body }}</li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-9">
+                    {{ inspirational.id }} : {{ inspirational.body }}
+                </div>
+                <div class="col-md-3 text-right">
+                    <a
+                        href={% url 'boosts:send-inspirational' inspirational.id %}
+                        class="btn btn-primary"
+                        >
+                        Send it to your Beastie: {{ user.beastie.username }}!
+                    </a>
+                </div>
+            </div>
+        </li>
         {% endfor %}
     </ul>
 
