@@ -89,12 +89,16 @@ def send_inspirational(request, pk):
     inspirational = get_object_or_404(Inspirational, pk=pk)
     # Send the inspirational quote to `MY_VALIDATED_EMAIL`:
     send_mail(
-        "Inspirational Quote",
-        inspirational.body,
+        f"Inspirational Quote from your Beastie: {request.user.username}",
+        f"""
+        {inspirational.body}
+        \n
+        Sent from {THE_SITE_NAME} by {request.user.username} ({request.user.email}).
+        """,
         request.user.email,
         [request.user.beastie.email],
         fail_silently=False,
     )
-    messages.success(request, f"Sent {inspirational.id} to your Beastie!")
+    messages.success(request, f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!")
     return redirect("boosts:inspirational-list")
 
