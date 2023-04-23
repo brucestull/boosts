@@ -16,4 +16,9 @@ urlpatterns = [
         views.InspirationalCreateView.as_view(),
         name="inspirational-create",
     ),
+    path(
+        "print/<int:pk>/",
+        views.send_inspirational,
+        name="send-inspirational",
+    ),
 ]

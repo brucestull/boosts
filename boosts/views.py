@@ -1,11 +1,16 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+import os
+
+from boosts.forms import InspirationalForm
 from boosts.models import Inspirational
 from config.settings.common import THE_SITE_NAME
-from boosts.forms import InspirationalForm
 
 INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
 INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
@@ -18,7 +23,7 @@ class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
     """
 
-    paginate_by = 10
+    paginate_by = 3
 
     def test_func(self):
         """
@@ -75,3 +80,35 @@ class InspirationalCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
         # Hide the "Create Inspirational" link in the navbar since we are already on the page.
         context["hide_inspirational_create_link"] = True
         return context
+
+
+def send_inspirational(request, pk):
+    """
+    Print an inspirational quote to the console.
+    """
+    inspirational = get_object_or_404(Inspirational, pk=pk)
+    # Send the inspirational quote to `MY_VALIDATED_EMAIL`:
+    send_mail(
+        "Inspirational Quote",
+        inspirational.body,
+        request.user.email,
+        [os.getenv("MY_VALIDATED_EMAIL")],
+        fail_silently=False,
+    )
+    messages.success(request, f"Printed {inspirational.id} to the console.")
+    return redirect("boosts:inspirational-list")
+
+
+# def print_inspirational(request, pk):
+#     """
+#     Print an inspirational quote.
+
+#     This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
+#     """
+#     inspirational = get_object_or_404(Inspirational, pk=pk)
+#     context = {
+#         "inspirational": inspirational,
+#         "page_title": f"Print {inspirational}",
+#         "the_site_name": THE_SITE_NAME,
+#     }
+#     return render(request, "boosts/inspirational_print.html", context)
