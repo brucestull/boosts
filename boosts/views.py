@@ -84,7 +84,7 @@ class InspirationalCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
 def send_inspirational(request, pk):
     """
-    Print an inspirational quote to the console.
+    Send an inspirational quote to `MY_VALIDATED_EMAIL`.
     """
     inspirational = get_object_or_404(Inspirational, pk=pk)
     # Send the inspirational quote to `MY_VALIDATED_EMAIL`:
@@ -92,23 +92,9 @@ def send_inspirational(request, pk):
         "Inspirational Quote",
         inspirational.body,
         request.user.email,
-        [os.getenv("MY_VALIDATED_EMAIL")],
+        [request.user.beastie.email],
         fail_silently=False,
     )
-    messages.success(request, f"Printed {inspirational.id} to the console.")
+    messages.success(request, f"Sent {inspirational.id} to your Beastie!")
     return redirect("boosts:inspirational-list")
 
-
-# def print_inspirational(request, pk):
-#     """
-#     Print an inspirational quote.
-
-#     This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
-#     """
-#     inspirational = get_object_or_404(Inspirational, pk=pk)
-#     context = {
-#         "inspirational": inspirational,
-#         "page_title": f"Print {inspirational}",
-#         "the_site_name": THE_SITE_NAME,
-#     }
-#     return render(request, "boosts/inspirational_print.html", context)

@@ -17,7 +17,7 @@ urlpatterns = [
         name="inspirational-create",
     ),
     path(
-        "print/<int:pk>/",
+        "send/<int:pk>/",
         views.send_inspirational,
         name="send-inspirational",
     ),
