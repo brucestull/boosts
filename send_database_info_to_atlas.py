@@ -38,7 +38,7 @@ mongo_cluster_url = os.getenv("MONGO_CLUSTER_URL")
 # Try to create a new client instance of `pymongo.MongoClient`:
 try:
     client = pymongo.MongoClient(
-        f"mongodb+srv://{mongo_db_username}:{mongo_db_password}@{mongo_cluster_url}/?retryWrites=true&w=majority"
+        f"mongodb+srv://{mongo_db_username}:{mongo_db_password}@{mongo_cluster_url}/test"
     )
     print("Connected successfully!!!")
 
