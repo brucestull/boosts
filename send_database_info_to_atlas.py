@@ -81,6 +81,9 @@ try:
 except pymongo.errors.OperationFailure:
     print("Collection does not exist")
     sys.exit(1)
+except pymongo.errors.ServerSelectionTimeoutError as e:
+    print(f"Server selection error: {e}")
+    sys.exit(1)
 
 # Try to insert the documents into the collection.
 try:
