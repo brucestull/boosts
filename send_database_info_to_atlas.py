@@ -70,6 +70,7 @@ boosts_documents = [
 
 # Try to drop the collection in case it already exists.
 try:
+    print("Dropping collection...")
     boosts_collection.drop()
     print("Collection dropped")
 # Throw an exception if `boosts_collection` collection does not exist.
@@ -79,6 +80,7 @@ except pymongo.errors.OperationFailure:
 
 # Try to insert the documents into the collection.
 try:
+    print("Inserting documents...")
     result = boosts_collection.insert_many(boosts_documents)
     print(f"Multiple documents: {result.inserted_ids}")
 # Throw an exception on a BulkWriteError.
@@ -88,6 +90,9 @@ except pymongo.errors.BulkWriteError as e:
 # Throw an exception if an `OperationFailure` is raised.
 except pymongo.errors.OperationFailure as e:
     print(f"Invalid insert operation: {e}")
+    sys.exit(1)
+except pymongo.errors.ServerSelectionTimeoutError as e:
+    print(f"Server selection error: {e}")
     sys.exit(1)
 # If the documents are successfully inserted, print out the number of documents inserted.
 else:
