@@ -51,11 +51,14 @@ except pymongo.errors.ConfigurationError:
 
 # Create/use a database named "boostsDatabase"
 db = client.boostsDatabase
+print(f"db: {db}")
 
 # Create/use a collection named "boostsCollection" which is part of the "boostsDatabase" database.
 boosts_collection = db["boostsCollection"]
+print(f"boosts_collection: {boosts_collection}")
 
 local_environment = os.getenv("LOCAL_ENVIRONMENT")
+print(f"local_environment: {local_environment}")
 
 # Create a single document to insert into the collection.
 boosts_documents = [
@@ -67,6 +70,7 @@ boosts_documents = [
         "application": "boosts",
     }
 ]
+print(f"boosts_documents: {boosts_documents}")
 
 # Try to drop the collection in case it already exists.
 try:
