@@ -4,6 +4,19 @@ import os
 
 
 ######################################################
+# Code for testing date and time inclusion:
+######################################################
+import datetime
+
+now = datetime.datetime.now()
+date_time_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+print("Current date and time:", date_time_string)
+######################################################
+
+
+
+######################################################
 # This section is only needed if your IDE does not automatically load
 # environment variables from the .env file.
 ######################################################
@@ -48,6 +61,7 @@ local_environment = os.getenv("LOCAL_ENVIRONMENT")
 boosts_documents = [
     {
         "local_environment": local_environment,
+        "date_time_string": date_time_string,
     },
     {
         "application": "boosts",
