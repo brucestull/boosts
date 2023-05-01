@@ -4,6 +4,23 @@ from django.contrib.auth import get_user_model
 from boosts.models import Inspirational
 
 
+class InspirationalSerializer(serializers.ModelSerializer):
+    
+        class Meta:
+            model = Inspirational
+            fields = [
+                'id',
+                'body',
+                'author',
+                'created',
+            ]
+            # extra_kwargs = {
+            #     'id': {'read_only': True},
+            #     'author': {'read_only': True},
+            #     'created': {'read_only': True},
+            # }
+
+
 class NestedInspirationalSerializer(serializers.ModelSerializer):
 
     class Meta:

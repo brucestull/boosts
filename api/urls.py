@@ -7,7 +7,12 @@ from api import views
 app_name = 'api'
 
 router = DefaultRouter()
+router.register(
+    'inspirationals',
+    views.InspirationalsViewSet,
+    basename='inspirationals'
+)
 
 urlpatterns = router.urls + [
-    path('current-user/', views.CurrentUserViewSet.as_view(), name='current-user')
+    path('current-user/', views.CurrentUserViewSet.as_view(), name='current-user'),
 ]
