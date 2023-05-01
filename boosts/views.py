@@ -24,7 +24,7 @@ class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
     """
 
-    paginate_by = 3
+    paginate_by = 5
 
     def test_func(self):
         """
