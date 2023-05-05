@@ -14,6 +14,7 @@ PASSWORD_FOR_TESTING = "a_test_password"
 LOGIN_URL = "/accounts/login/"
 
 NUMBER_OF_INSPIRATIONALS = 13
+NUMBER_OF_INSPIRATIONALS_PER_PAGE = 10
 
 INSPIRATIONAL_LIST_URL = "/boosts/inspirationals/"
 INSPIRATIONAL_LIST_VIEW_NAME = "boosts:inspirational-list"
@@ -98,7 +99,7 @@ class InspirationalListViewTest(TestCase):
 
     def test_view_pagination_is_ten(self):
         """
-        View should paginate the list of `Inspirational`s by 10.
+        View should paginate the list of `Inspirational`s by `NUMBER_OF_INSPIRATIONALS_PER_PAGE` (10).
         """
         login = self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -108,7 +109,7 @@ class InspirationalListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("is_paginated" in response.context)
         self.assertTrue(response.context["is_paginated"] == True)
-        self.assertTrue(len(response.context["object_list"]) == 10)
+        self.assertTrue(len(response.context["object_list"]) == NUMBER_OF_INSPIRATIONALS_PER_PAGE)
 
     def test_view_returns_inspirational_objects(self):
         """
@@ -121,7 +122,7 @@ class InspirationalListViewTest(TestCase):
         response = self.client.get(INSPIRATIONAL_LIST_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTrue("object_list" in response.context)
-        self.assertTrue(len(response.context["object_list"]) == 10)
+        self.assertTrue(len(response.context["object_list"]) == NUMBER_OF_INSPIRATIONALS_PER_PAGE)
         for object in response.context["object_list"]:
             self.assertIsInstance(object, Inspirational)
 
@@ -140,7 +141,7 @@ class InspirationalListViewTest(TestCase):
         self.assertEqual(response_page_one.status_code, 200)
         self.assertTrue("is_paginated" in response_page_one.context)
         self.assertTrue(response_page_one.context["is_paginated"] == True)
-        self.assertTrue(len(response_page_one.context["object_list"]) == 10)
+        self.assertTrue(len(response_page_one.context["object_list"]) == NUMBER_OF_INSPIRATIONALS_PER_PAGE)
         response_page_two = self.client.get(INSPIRATIONAL_LIST_URL + "?page=2")
         self.assertEqual(response_page_two.status_code, 200)
         self.assertTrue("is_paginated" in response_page_two.context)
