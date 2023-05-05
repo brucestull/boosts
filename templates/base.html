@@ -42,12 +42,6 @@
                                     Greetings, {{ user.username | capfirst }}!
                                 </span>
                             </li>
-                            {% if user.registration_accepted and user.is_staff %}
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                    href="{% url 'api:current-user' %}">Inspirationals-API</a>
-                                </li>
-                            {% endif %}
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link active"
@@ -63,24 +57,24 @@
                         {% endif %}
 
                         {% if not user.is_authenticated and not hide_login_link %}
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{% url 'login' %}">Login</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                href="{% url 'login' %}">Login</a>
+                            </li>
                         {% endif %}
 
                         {% if not user.is_authenticated and not hide_signup_link %}
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{% url 'signup' %}">Signup</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                href="{% url 'signup' %}">Signup</a>
+                            </li>
                         {% endif %}
 
                         {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{% url 'logout' %}">Logout</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                href="{% url 'logout' %}">Logout</a>
+                            </li>
                         {% endif %}
 
                         <li class="nav-item dropdown">
@@ -94,52 +88,56 @@
                             <ul class="dropdown-menu">
 
                                 {% if user.is_authenticated and user.registration_accepted %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'boosts:inspirational-list' %}">Inspirationals</a>
-                                </li>
-                                {% if not hide_inspirational_create_link %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'boosts:inspirational-create' %}">Create Inspirational</a>
-                                </li>
-                                {% endif %}
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                        href="{% url 'boosts:inspirational-list' %}">Inspirationals</a>
+                                    </li>
+                                    {% if not hide_inspirational_create_link %}
+                                        <li>
+                                            <a class="dropdown-item"
+                                            href="{% url 'boosts:inspirational-create' %}">Create Inspirational</a>
+                                        </li>
+                                    {% endif %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
 
-                                {% if not hide_edit_profile_link %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'edit-profile' user.id %}">Edit Profile</a>
-                                </li>
-                                {% endif %}
+                                    {% if not hide_edit_profile_link %}
+                                        <li>
+                                            <a class="dropdown-item"
+                                            href="{% url 'edit-profile' user.id %}">Edit Profile</a>
+                                        </li>
+                                    {% endif %}
                                 {% endif %}
 
 
                                 {% if user.is_authenticated %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'password_change' %}">Change Password</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'password_reset' %}">Reset Password</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                        href="{% url 'password_change' %}">Change Password</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                        href="{% url 'password_reset' %}">Reset Password</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                 {% endif %}
                                 {% if user.is_staff %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'admin:index' %}">
-                                        Django Admin Interface
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                        href="{% url 'admin:index' %}">
+                                            Django Admin Interface
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                        href="{% url 'api:current-user' %}">Inspirationals-API</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                 {% endif %}
                                 <li>
                                     <a class="dropdown-item"
