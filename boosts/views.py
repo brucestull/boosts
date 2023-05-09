@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 
 import os
@@ -15,6 +16,20 @@ from config.settings.common import THE_SITE_NAME
 
 INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
 INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
+
+
+class ForbiddenView(TemplateView):
+    """
+    View for the 403 Forbidden page.
+    """
+
+    template_name = "403.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Forbidden"
+        context["the_site_name"] = THE_SITE_NAME
+        return context
 
 
 class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
