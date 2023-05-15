@@ -124,7 +124,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                 {% endif %}
-                                {% if user.is_staff %}
+                                {% if user.is_staff and user.registration_accepted %}
                                     <li>
                                         <a class="dropdown-item"
                                         href="{% url 'admin:index' %}">

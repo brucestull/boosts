@@ -26,9 +26,9 @@ print("Current date and time:", date_time_string)
 # # If we are in a local environment, load the environment variables
 # from the .env file.
 # if os.getenv("LOCAL_ENVIRONMENT") == "TRUE":
-#     from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-#     load_dotenv()
+load_dotenv()
 ######################################################
 
 mongo_db_username = os.getenv("MONGO_DB_USERNAME")
@@ -57,7 +57,7 @@ print(f"db: {db}")
 boosts_collection = db["boostsCollection"]
 print(f"boosts_collection: {boosts_collection}")
 
-local_environment = os.getenv("LOCAL_ENVIRONMENT")
+local_environment = os.getenv("CURRENT_ENVIRONMENT")
 print(f"local_environment: {local_environment}")
 
 # Create a single document to insert into the collection.

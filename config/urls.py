@@ -29,17 +29,39 @@ urlpatterns = [
     #     ),
     #     name='home',
     # ),
-
-    path('', RedirectView.as_view(pattern_name='boosts:inspirational-list'), name='home'),
-
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
-    path('admin/', admin.site.urls),
-    
-    path('accounts/', include('accounts.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-
-    path('boosts/', include('boosts.urls')),
-
-    path('api/v1/', include('api.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path(
+        "",
+        RedirectView.as_view(pattern_name="boosts:inspirational-list"),
+        name="home",
+    ),
+    path(
+        "admin/doc/",
+        include(
+            "django.contrib.admindocs.urls",
+        ),
+    ),
+    path(
+        "admin/",
+        admin.site.urls,
+    ),
+    path(
+        "accounts/",
+        include("accounts.urls"),
+    ),
+    path(
+        "accounts/",
+        include("django.contrib.auth.urls"),
+    ),
+    path(
+        "boosts/",
+        include("boosts.urls"),
+    ),
+    path(
+        "api/v1/",
+        include("api.urls"),
+    ),
+    path(
+        "api-auth/",
+        include("rest_framework.urls", namespace="rest_framework"),
+    ),
 ]

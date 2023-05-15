@@ -26,5 +26,4 @@ urlpatterns = [
         views.ForbiddenView.as_view(),
         name='forbidden',
     ),
-
 ]

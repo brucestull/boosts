@@ -4,7 +4,7 @@ from rest_framework import generics
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from api.serializers import CurrentUserSerializer, InspirationalSerializer
-from api.permissions import IsRegistrationAccepted
+# from api.permissions import IsRegistrationAccepted, IsStaff
 from boosts.models import Inspirational
 
 
@@ -15,10 +15,14 @@ class CurrentUserViewSet(LoginRequiredMixin, generics.RetrieveAPIView):
         return self.request.user
 
 
-class InspirationalsViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+# class InspirationalsViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+class InspirationalsViewSet(viewsets.ModelViewSet):
     """
     View set for the Inspirational model.
     """
-    permission_classes = [IsRegistrationAccepted]
+    # permission_classes = [
+    #     IsRegistrationAccepted,
+    #     IsStaff,
+    # ]
     serializer_class = InspirationalSerializer
     queryset = Inspirational.objects.all()
