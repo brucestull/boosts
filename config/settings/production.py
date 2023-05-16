@@ -19,6 +19,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 database_config_variables = get_database_config_variables(
     os.environ.get('DATABASE_URL')
 )
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
