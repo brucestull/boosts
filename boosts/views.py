@@ -108,7 +108,7 @@ def send_inspirational(request, pk):
     current_site = get_current_site(request)
     plain_text_body = (
         f"""
-            {inspirational.body}
+            {inspirational.created.strftime("%y-%m-%d")} - {inspirational.body}
             \n
             Sent from https://{current_site.domain} by {request.user.username} ({request.user.email}).
         """
