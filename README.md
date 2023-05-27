@@ -1,11 +1,36 @@
 # Boosts
 
-* A Django application for a user to create, read, update, and delete (CRUD) "Boost"s.
-* A "Boost" is a short inspirational statement, quote, or other message that a user can post to their profile.
-* A user can receive a random "Boost" each day.
-* A user can send an email or text message to receive a random "Boost" at any time.
-* A user can share their "Boost"s with other users.
+* A Django application for a user to create, read, update, and delete (CRUD) "Inspirational"s.
+* A "Inspirational" is a short inspirational statement, quote, or other message that a user can post to their profile.
+* A user can receive a random "Inspirational" each day.
+* A user can send an email or text message to receive a random "Inspirational" at any time.
+* A user can share their "Inspirational"s with other users.
 
+## Table of Contents
+
+## Models
+
+- [x] CustomUser
+- [x] Inspirational
+
+## Views
+* `CustomUser`:
+    - [x] Create
+    - [x] Read
+    - [x] Update
+* `Inspirational`:
+    - [x] Create
+    - [ ] Read
+    - [x] List
+    - [ ] Update
+    - [ ] Delete
+    - [x] Share
+
+## Templates
+
+## Interesting Features
+
+## New Knowledge
 
 ## Resources
 
