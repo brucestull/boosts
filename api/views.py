@@ -20,9 +20,9 @@ class InspirationalsViewSet(viewsets.ModelViewSet):
     """
     View set for the Inspirational model.
     """
-    # permission_classes = [
-    #     IsRegistrationAccepted,
-    #     IsStaff,
-    # ]
+    permission_classes = [
+        IsRegistrationAccepted,
+        IsStaff,
+    ]
     serializer_class = InspirationalSerializer
     queryset = Inspirational.objects.all()
