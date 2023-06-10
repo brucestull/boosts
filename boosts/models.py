@@ -5,9 +5,8 @@ from config.settings.common import AUTH_USER_MODEL
 
 
 class Inspirational(models.Model):
-    body = models.CharField(
-        max_length=500,
-        help_text="Required. 500 characters or fewer.",
+    body = models.TextField(
+        help_text="Required.",
         verbose_name="Inspirational Body Text",
     )
     author = models.ForeignKey(
