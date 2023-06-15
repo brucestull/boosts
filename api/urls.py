@@ -4,15 +4,19 @@ from rest_framework.routers import DefaultRouter
 
 from api import views
 
-app_name = 'api'
+app_name = "api"
 
 router = DefaultRouter()
 router.register(
-    'inspirationals',
+    "inspirationals",
     views.InspirationalsViewSet,
-    basename='inspirationals'
+    basename="inspirationals",
 )
 
 urlpatterns = router.urls + [
-    path('current-user/', views.CurrentUserViewSet.as_view(), name='current-user'),
+    path(
+        "current-user/",
+        views.CurrentUserViewSet.as_view(),
+        name="current-user",
+    ),
 ]
