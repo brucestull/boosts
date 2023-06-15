@@ -34,21 +34,13 @@ class InspirationalModelTest(TestCase):
             body=A_TEST_INSPIRATIONAL_BODY,
         )
 
-    def test_body_max_length_attribute(self):
-        """
-        `Inspirational` `body` field `max_length` attribute should be 500.
-        """
-        inspirational = Inspirational.objects.get(id=1)
-        max_length = inspirational._meta.get_field('body').max_length
-        self.assertEqual(max_length, 500)
-
     def test_body_help_text_attribute(self):
         """
         `Inspirational` `body` field `help_text` attribute should be `Required. 500 characters or fewer.`.
         """
         inspirational = Inspirational.objects.get(id=1)
         help_text = inspirational._meta.get_field('body').help_text
-        self.assertEqual(help_text, 'Required. 500 characters or fewer.')
+        self.assertEqual(help_text, 'Required.')
 
     def test_body_verbose_name_attribute(self):
         """

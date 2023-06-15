@@ -87,7 +87,7 @@ class BaseTemplateHttpResponseTest(TestCase):
         - signup
         - login
         """
-        self.client.login(
+        login = self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
             password=PASSWORD_FOR_TESTING,
         )
