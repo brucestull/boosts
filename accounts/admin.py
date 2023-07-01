@@ -29,12 +29,17 @@ class CustomUserAdmin(UserAdmin):
         # Convert fieldsets to list:
         fieldsets_as_list = list(fieldsets)
 
-        # Create list of single tuple for `registration_accepted`:
+        # Create list of single tuple for `registration_accepted` and `beastie`:
         moderator_permissions_as_list = [
-            ("Moderator Permissions", {"fields": (
-                "registration_accepted",
-                "beastie",
-            )})
+            (
+                "Moderator Permissions",
+                {
+                    "fields": (
+                        "registration_accepted",
+                        "beastie",
+                    )
+                },
+            )
         ]
 
         # Combine the two lists and return the result:
