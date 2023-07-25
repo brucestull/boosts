@@ -40,6 +40,8 @@
 
 ## Interesting Features
 
+* [Custom 403 Server Error Page](./notes/custom_403.md)
+
 ## New Knowledge
 
 ## PyPI Packages
