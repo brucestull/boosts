@@ -15,8 +15,8 @@ class CurrentUserViewSet(LoginRequiredMixin, generics.RetrieveAPIView):
         return self.request.user
 
 
-# class InspirationalsViewSet(viewsets.ModelViewSet):
-class InspirationalsViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+# class InspirationalsViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+class InspirationalsViewSet(viewsets.ModelViewSet):
     """
     View set for the Inspirational model.
     """
