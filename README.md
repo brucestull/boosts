@@ -8,6 +8,12 @@
 
 ## Table of Contents
 
+## Items Which are not Best Practices
+
+### `config/settings/development.py` and `config/settings/production.py` uses imports of `*` from `config/settings/common.py`.
+* This may be fixed in future when project is migrated to use either `pydantic` or some other coding conventions for settings.
+* Even though this works as needed, it seems that it is usually not good to import `*` from a module.
+
 ## Production Links
 
 ## Django Applications
