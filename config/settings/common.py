@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.admindocs",
     "boosts.apps.BoostsConfig",
     "rest_framework",
+    "rest_framework.authtoken",
     "api.apps.ApiConfig",
 ]
 
