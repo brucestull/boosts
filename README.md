@@ -79,3 +79,4 @@
 ### Third Party Resources
 
 * [Django DeleteView - www.pythontutorial.net](https://www.pythontutorial.net/django-tutorial/django-deleteview/)
+* [Django REST Authentication](https://www.django-rest-framework.org/api-guide/authentication/)

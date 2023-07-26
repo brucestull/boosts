@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.admindocs",
     "boosts.apps.BoostsConfig",
     "rest_framework",
+    "rest_framework.authtoken",
     "api.apps.ApiConfig",
 ]
 
@@ -124,3 +125,9 @@ LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
 
 THE_SITE_NAME = "Boosts"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
