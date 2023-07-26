@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView, RedirectView
+from rest_framework.authtoken.views import obtain_auth_token
 
 from config.settings.common import THE_SITE_NAME
 
@@ -64,4 +65,5 @@ urlpatterns = [
         "api-auth/",
         include("rest_framework.urls", namespace="rest_framework"),
     ),
+    path('api-auth/token/', obtain_auth_token),
 ]
