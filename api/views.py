@@ -15,14 +15,14 @@ class CurrentUserViewSet(LoginRequiredMixin, generics.RetrieveAPIView):
         return self.request.user
 
 
-# class InspirationalsViewSet(viewsets.ModelViewSet):
-class InspirationalsViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+# class InspirationalsViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+class InspirationalsViewSet(viewsets.ModelViewSet):
     """
     View set for the Inspirational model.
     """
-    permission_classes = [
-        IsRegistrationAccepted,
-        IsStaff,
-    ]
+    # permission_classes = [
+    #     IsRegistrationAccepted,
+    #     IsStaff,
+    # ]
     serializer_class = InspirationalSerializer
     queryset = Inspirational.objects.all()
