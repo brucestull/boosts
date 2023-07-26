@@ -4,7 +4,7 @@ from config.settings.common import *
 from utils import get_database_config_variables
 
 
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 
 ALLOWED_HOSTS = ['boosts.herokuapp.com']

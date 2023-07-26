@@ -23,12 +23,12 @@ from config.settings.common import THE_SITE_NAME
 
 urlpatterns = [
     path(
-        '',
+        "",
         TemplateView.as_view(
             template_name="home.html",
-            extra_context={'the_site_name': THE_SITE_NAME},
+            extra_context={"the_site_name": THE_SITE_NAME},
         ),
-        name='home',
+        name="home",
     ),
     # path(
     #     "",
@@ -65,5 +65,8 @@ urlpatterns = [
         "api-auth/",
         include("rest_framework.urls", namespace="rest_framework"),
     ),
-    path('api-auth/token/', obtain_auth_token),
+    path(
+        "api-auth/token/",
+        obtain_auth_token,
+    ),
 ]
