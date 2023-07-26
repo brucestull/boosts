@@ -68,5 +68,6 @@ urlpatterns = [
     path(
         "api-auth/token/",
         obtain_auth_token,
+        name="api-auth-token",
     ),
 ]

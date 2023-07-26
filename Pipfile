@@ -13,6 +13,7 @@ tzdata = "==2022.7"
 djangorestframework = "==3.14.0"
 python-dotenv = "==1.0.0"
 coverage = "==7.2.6"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
