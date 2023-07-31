@@ -19,40 +19,27 @@ INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
 INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
 
 
-class ForbiddenView(TemplateView):
-    """
-    View for the 403 Forbidden page.
-    """
-
-    # Define the template used by this view:
-    # This template is located at `templates/403.html`
-    template_name = "403.html"
-
-    # Override the `get_context_data` method to add the page title and the site name to the context:
-    def get_context_data(self, **kwargs):
-        """
-        Add the page title and the site name to the context.
-        """
-        context = super().get_context_data(**kwargs)
-        context["page_title"] = "Forbidden"
-        context["the_site_name"] = THE_SITE_NAME
-        return context
-
-
 class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     ListView for the Inspirational model.
 
-    This view is only accessible to users who have `registration_accepted=True`. This is controlled by the `UserPassesTestMixin` and the `test_func` method.
+    This view is only accessible to users who have `registration_accepted=True`.
+    This is controlled by the `UserPassesTestMixin` and the `test_func` method.
+
+        The `LoginRequiredMixin` is used to route users to the login page if they are not logged in.
+        
+        The `UserPassesTestMixin` is used to ensure the user has `registration_accepted=True`.
     """
 
     paginate_by = 10
 
     def test_func(self):
         """
-        Test if user has `registration_accepted=True`. Only users who pass this test can access this view.
+        Test if user has `registration_accepted=True`. Only users who pass this
+        test can access this view.
 
-        This function is used by the `UserPassesTestMixin` to control access to this view.
+        This function is used by the `UserPassesTestMixin` to control access to
+        this view.
         """
         return self.request.user.registration_accepted
 
@@ -69,6 +56,9 @@ class InspirationalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Override the `get_context_data` method to add the page title and the site name to the context.
+        """
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME

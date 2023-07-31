@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView, RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from . import views
 from config.settings.common import THE_SITE_NAME
 
 urlpatterns = [
@@ -58,12 +59,20 @@ urlpatterns = [
         include("boosts.urls"),
     ),
     path(
+        '403/',
+        views.ForbiddenView.as_view(),
+        name='forbidden',
+    ),
+    path(
         "api/v1/",
         include("api.urls"),
     ),
     path(
         "api-auth/",
-        include("rest_framework.urls", namespace="rest_framework"),
+        include(
+            "rest_framework.urls",
+            namespace="rest_framework",
+        ),
     ),
     path(
         "api-auth/token/",

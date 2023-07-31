@@ -22,9 +22,4 @@ urlpatterns = [
         views.send_inspirational,
         name="send-inspirational",
     ),
-    path(
-        '403/',
-        views.ForbiddenView.as_view(),
-        name='forbidden',
-    ),
 ]
