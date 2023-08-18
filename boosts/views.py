@@ -12,6 +12,7 @@ import os
 
 from boosts.forms import InspirationalForm
 from boosts.models import Inspirational
+from boosts.models import InspirationSent
 from config.settings.common import THE_SITE_NAME
 
 # Define the page titles:
@@ -130,6 +131,13 @@ def send_inspirational(request, pk):
         # html_message=plain_text_body,
         fail_silently=False,
     )
+    inspirational_sent = InspirationSent.objects.create(
+        inspirational=inspirational,
+        inspirational_text=inspirational.body,
+        sender=request.user,
+        beastie=request.user.beastie,
+    )
+    print(f"inspirational_sent: {inspirational_sent}")
     messages.success(
         request,
         f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!",
