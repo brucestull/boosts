@@ -163,5 +163,7 @@ def send_inspirational(request, pk):
         messages.error(request, str(e))
         return redirect("boosts:inspirational-list")
     except Exception as e:
-        messages.error(request, "An error occurred while sending the inspirational quote.")
+        messages.error(
+            request, "An error occurred while sending the inspirational quote."
+        )
         return redirect("boosts:inspirational-list")
