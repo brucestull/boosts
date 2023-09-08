@@ -10,7 +10,7 @@ DEBUG = bool(strtobool(os.getenv("DEBUG", "True")))
 
 ALLOWED_HOSTS = ['localhost']
 
-
+# Database settings:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -20,7 +20,7 @@ DATABASES = {
 
 
 load_dotenv()
-
+# Email sending settings:
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
