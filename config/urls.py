@@ -24,17 +24,10 @@ from . import views
 urlpatterns = [
     path(
         "",
-        TemplateView.as_view(
-            template_name="home.html",
-            extra_context={"the_site_name": THE_SITE_NAME},
+        RedirectView.as_view(
+            pattern_name="boosts:landing",
         ),
-        name="home",
     ),
-    # path(
-    #     "",
-    #     RedirectView.as_view(pattern_name="boosts:inspirational-list"),
-    #     name="home",
-    # ),
     path(
         "admin/doc/",
         include(
