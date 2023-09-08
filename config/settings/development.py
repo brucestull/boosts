@@ -1,9 +1,11 @@
 import os
+
+from distutils.util import strtobool
 from dotenv import load_dotenv
 from config.settings.common import *
 
 
-DEBUG = True
+DEBUG = bool(strtobool(os.getenv("DEBUG", "True")))
 
 
 ALLOWED_HOSTS = ['localhost']
