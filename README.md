@@ -41,6 +41,10 @@
 ## Interesting Features
 
 * [Custom 403 Server Error Page](./notes/custom_403.md)
+* `DEBUG` logic:
+    ```python
+    DEBUG = bool(strtobool(os.getenv("DEBUG", "False")))
+    ```
 
 ## New Knowledge
 
