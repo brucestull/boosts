@@ -51,9 +51,9 @@ urlpatterns = [
         include("boosts.urls"),
     ),
     path(
-        '403/',
+        "403/",
         views.ForbiddenView.as_view(),
-        name='forbidden',
+        name="forbidden",
     ),
     path(
         "api/v1/",
