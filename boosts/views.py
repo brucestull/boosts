@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -126,34 +127,41 @@ def send_inspirational(request, pk):
     Send an inspirational quote to the User's Beastie (a User which has
     been designated as the User's Beastie).
     """
-    # Get the inspirational quote from the pk sent in the URL:
-    inspirational = get_object_or_404(Inspirational, pk=pk)
-    # Get the current site domain. This will resolve to a localhost in DEV
-    # and to the production domain in PROD:
-    current_site = get_current_site(request)
-    plain_text_body = f"""
-            {inspirational.created.strftime("%y-%m-%d")} - {inspirational.body}
-            \n
-            Sent from https://{current_site.domain} by {request.user.username} ({request.user.email}).
-        """
-    # Send the inspirational quote to the user's beastie:
-    send_mail(
-        f"Inspirational Quote from your Beastie: {request.user.username}",
-        plain_text_body,
-        request.user.email,
-        [request.user.beastie.email],
-        # html_message=plain_text_body,
-        fail_silently=False,
-    )
-    inspirational_sent = InspirationSent.objects.create(
-        inspirational=inspirational,
-        inspirational_text=inspirational.body,
-        sender=request.user,
-        beastie=request.user.beastie,
-    )
-    print(f"inspirational_sent: {inspirational_sent}")
-    messages.success(
-        request,
-        f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!",
-    )
-    return redirect("boosts:inspirational-list")
+    try:
+        # Get the inspirational quote from the pk sent in the URL:
+        inspirational = get_object_or_404(Inspirational, pk=pk)
+        # Get the current site domain. This will resolve to a localhost in DEV
+        # and to the production domain in PROD:
+        current_site = get_current_site(request)
+        plain_text_body = f"""
+                {inspirational.created.strftime("%y-%m-%d")} - {inspirational.body}
+                \n
+                Sent from https://{current_site.domain} by {request.user.username} ({request.user.email}).
+            """
+        # Send the inspirational quote to the user's beastie:
+        send_mail(
+            f"Inspirational Quote from your Beastie: {request.user.username}",
+            plain_text_body,
+            request.user.email,
+            [request.user.beastie.email],
+            # html_message=plain_text_body,
+            fail_silently=False,
+        )
+        inspirational_sent = InspirationSent.objects.create(
+            inspirational=inspirational,
+            inspirational_text=inspirational.body,
+            sender=request.user,
+            beastie=request.user.beastie,
+        )
+        print(f"inspirational_sent: {inspirational_sent}")
+        messages.success(
+            request,
+            f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!",
+        )
+        return redirect("boosts:inspirational-list")
+    except ValidationError as e:
+        messages.error(request, str(e))
+        return redirect("boosts:inspirational-list")
+    except Exception as e:
+        messages.error(request, "An error occurred while sending the inspirational quote.")
+        return redirect("boosts:inspirational-list")
