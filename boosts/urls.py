@@ -8,6 +8,11 @@ app_name = "boosts"
 # Define the URL patterns for the `boosts` app:
 urlpatterns = [
     path(
+        "",
+        views.landing_view,
+        name="landing",
+    ),
+    path(
         "inspirationals/",
         views.InspirationalListView.as_view(),
         name="inspirational-list",
