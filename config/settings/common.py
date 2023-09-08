@@ -121,8 +121,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 # LOGIN_REDIRECT_URL = "boosts:inspirational-list" # TODO: Implement a way for a 'registration_accepted' false user to be redirected to a page that says they need to wait for their registration to be accepted.
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
+LOGIN_REDIRECT_URL = "boosts:inspirational-list"
+LOGOUT_REDIRECT_URL = "boosts:landing"
 
 THE_SITE_NAME = "Boosts"
 
