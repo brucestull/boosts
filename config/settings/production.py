@@ -1,10 +1,12 @@
 import os
 
-from config.settings.common import *
+from distutils.util import strtobool
+
 from utils import get_database_config_variables
+from config.settings.common import *
 
 
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = bool(strtobool(os.getenv("DEBUG", "False")))
 
 
 ALLOWED_HOSTS = ['boosts.herokuapp.com']
