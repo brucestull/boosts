@@ -11,6 +11,7 @@ from django.views.generic.edit import CreateView
 
 import os
 
+from accounts.models import CustomUser
 from boosts.forms import InspirationalForm
 from boosts.models import Inspirational
 from boosts.models import InspirationSent
@@ -163,5 +164,46 @@ def send_inspirational(request, pk):
         messages.error(request, str(e))
         return redirect("boosts:inspirational-list")
     except Exception as e:
-        messages.error(request, "An error occurred while sending the inspirational quote.")
+        messages.error(
+            request, "An error occurred while sending the inspirational quote."
+        )
         return redirect("boosts:inspirational-list")
+
+
+class BretBeastieInspirationalListView(ListView):
+    paginate_by = 10
+
+    # We are not using 'model = Inspirational' attribute since we want only
+    # the `Inspirationals` for the example user.
+    def get_queryset(self):
+        """
+        Override the `get_queryset` method to return only the `Inspirational`s for the example user named "BretBeastie".
+        """
+        bret_beastie = CustomUser.objects.get(username="BretBeastie")
+        queryset = Inspirational.objects.filter(
+            author=bret_beastie,
+        ).order_by("-created")
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """
+        Override the `get_context_data` method to add the page title and the site name to the context.
+        """
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
+        context["the_site_name"] = THE_SITE_NAME
+        return context
+
+
+def landing_view(request):
+    """
+    This view checks is the user is authenticated.
+
+    If they are, they are routed to their own `InspirationalListView`.
+
+    If they are not, they are routed to the `BretBeastieInspirationalListView`.
+    """
+    if request.user.is_authenticated:
+        return InspirationalListView.as_view()(request)
+    else:
+        return BretBeastieInspirationalListView.as_view()(request)

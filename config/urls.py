@@ -16,26 +16,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import TemplateView, RedirectView
+from django.views.generic.base import RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 
 from . import views
-from config.settings.common import THE_SITE_NAME
 
 urlpatterns = [
     path(
         "",
-        TemplateView.as_view(
-            template_name="home.html",
-            extra_context={"the_site_name": THE_SITE_NAME},
+        RedirectView.as_view(
+            pattern_name="boosts:landing",
         ),
-        name="home",
     ),
-    # path(
-    #     "",
-    #     RedirectView.as_view(pattern_name="boosts:inspirational-list"),
-    #     name="home",
-    # ),
     path(
         "admin/doc/",
         include(
@@ -59,9 +51,9 @@ urlpatterns = [
         include("boosts.urls"),
     ),
     path(
-        '403/',
+        "403/",
         views.ForbiddenView.as_view(),
-        name='forbidden',
+        name="forbidden",
     ),
     path(
         "api/v1/",
