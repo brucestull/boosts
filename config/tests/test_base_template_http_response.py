@@ -91,6 +91,7 @@ class BaseTemplateHttpResponseTest(TestCase):
             username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
             password=PASSWORD_FOR_TESTING,
         )
+        self.assertTrue(login)
         response = self.client.get(HOME_PAGE_URL)
         self.assertContains(response, LOGOUT_URL)
         self.assertNotContains(response, SIGNUP_URL)
