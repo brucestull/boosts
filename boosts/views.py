@@ -145,7 +145,14 @@ def send_inspirational(request, pk):
             plain_text_body,
             request.user.email,
             [request.user.beastie.email],
-            # html_message=plain_text_body,
+            fail_silently=False,
+        )
+        # Send a copy of the inspirational quote to the user:
+        send_mail(
+            f"You Sent an Inspirational Quote to your Beastie: {request.user.beastie.username}",
+            plain_text_body,
+            request.user.email,
+            [request.user.email],
             fail_silently=False,
         )
         inspirational_sent = InspirationSent.objects.create(
