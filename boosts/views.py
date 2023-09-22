@@ -82,6 +82,7 @@ class InspirationalListView(
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
+        context["name_in_heading"] = self.request.user.username
         return context
 
 
@@ -205,6 +206,7 @@ class BretBeastieInspirationalListView(ListView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
+        context["name_in_heading"] = "BretBeastie"
         return context
 
 
