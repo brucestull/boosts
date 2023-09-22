@@ -178,6 +178,12 @@ def send_inspirational(request, pk):
 
 
 class BretBeastieInspirationalListView(ListView):
+    """
+    ListView to show a sample of `Inspirational`s for the example user named "BretBeastie".
+
+    This view is accessible to users who are not logged in.
+    """
+
     paginate_by = 10
 
     # We are not using 'model = Inspirational' attribute since we want only
