@@ -52,6 +52,7 @@ class InspirationalListView(
     """
 
     paginate_by = 10
+    queryset = None
 
     def test_func(self):
         """
@@ -77,11 +78,13 @@ class InspirationalListView(
 
     def get_context_data(self, **kwargs):
         """
-        Override the `get_context_data` method to add the page title and the site name to the context.
+        Override the `get_context_data` method to add `page_title`,
+        `the_site_name`, and `name_in_heading` to the context.
         """
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
+        context["name_in_heading"] = self.request.user.username
         return context
 
 
@@ -185,6 +188,7 @@ class BretBeastieInspirationalListView(ListView):
     """
 
     paginate_by = 10
+    username = "BretBeastie"
 
     # We are not using 'model = Inspirational' attribute since we want only
     # the `Inspirationals` for the example user.
@@ -192,9 +196,9 @@ class BretBeastieInspirationalListView(ListView):
         """
         Override the `get_queryset` method to return only the `Inspirational`s for the example user named "BretBeastie".
         """
-        bret_beastie = CustomUser.objects.get(username="BretBeastie")
+        demo_example_user = CustomUser.objects.get(username=self.username)
         queryset = Inspirational.objects.filter(
-            author=bret_beastie,
+            author=demo_example_user,
         ).order_by("-created")
         return queryset
 
@@ -205,6 +209,7 @@ class BretBeastieInspirationalListView(ListView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
+        context["name_in_heading"] = self.username
         return context
 
 
