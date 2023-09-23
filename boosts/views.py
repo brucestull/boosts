@@ -52,6 +52,7 @@ class InspirationalListView(
     """
 
     paginate_by = 10
+    queryset = None
 
     def test_func(self):
         """
