@@ -15,6 +15,7 @@ python-dotenv = "==1.0.0"
 coverage = "==7.2.6"
 djangorestframework-simplejwt = "*"
 flake8 = "*"
+isort = "*"
 
 [dev-packages]
 
