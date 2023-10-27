@@ -53,6 +53,7 @@ class InspirationalListViewTest(TestCase):
         )
         response = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(login)
 
     def test_view_accessible_by_name(self):
         """
@@ -62,6 +63,7 @@ class InspirationalListViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get(reverse("boosts:inspirational-list"))
         self.assertEqual(response.status_code, 200)
 
@@ -73,6 +75,7 @@ class InspirationalListViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/inspirationals/")
         self.assertTemplateUsed(response, "boosts/inspirational_list.html")
 
@@ -84,10 +87,11 @@ class InspirationalListViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response.status_code, 200)
         self.assertTrue("is_paginated" in response.context)
-        self.assertTrue(response.context["is_paginated"] == True)
+        self.assertTrue(response.context["is_paginated"])
         self.assertTrue(len(response.context["object_list"]) == 10)
 
     def test_view_returns_inspirational_objects(self):
@@ -98,6 +102,7 @@ class InspirationalListViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response.status_code, 200)
         self.assertTrue("object_list" in response.context)
@@ -116,36 +121,41 @@ class InspirationalListViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response_page_one = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response_page_one.status_code, 200)
         self.assertTrue("is_paginated" in response_page_one.context)
-        self.assertTrue(response_page_one.context["is_paginated"] == True)
+        self.assertTrue(response_page_one.context["is_paginated"])
         self.assertTrue(len(response_page_one.context["object_list"]) == 10)
         response_page_two = self.client.get("/boosts/inspirationals/" + "?page=2")
         self.assertEqual(response_page_two.status_code, 200)
         self.assertTrue("is_paginated" in response_page_two.context)
-        self.assertTrue(response_page_two.context["is_paginated"] == True)
+        self.assertTrue(response_page_two.context["is_paginated"])
         self.assertTrue(len(response_page_two.context["object_list"]) == 3)
 
     def test_view_for_authenticated_registration_accepted_false_user(self):
         """
-        View should return 403 if user is authenticated and registration_accepted is False.
+        View should return 403 if user is authenticated and registration_accepted is
+        False.
         """
         login = self.client.login(
             username="UnregisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response.status_code, 403)
 
     def test_view_for_authenticated_registration_accepted_true_user(self):
         """
-        View should return 200 if user is authenticated and registration_accepted is True.
+        View should return 200 if user is authenticated and registration_accepted is
+        True.
         """
         login = self.client.login(
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response.status_code, 200)
 
@@ -180,6 +190,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         self.assertEqual(response.status_code, 200)
         self.assertTrue("form" in response.context)
@@ -193,6 +204,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         self.assertTemplateUsed(response, "boosts/inspirational_form.html")
 
@@ -204,6 +216,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.post(
             "/boosts/create/",
             data={
@@ -229,6 +242,7 @@ class InspirationalCreateViewTest(TestCase):
             username="UnregisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         self.assertEqual(response.status_code, 403)
 
@@ -240,6 +254,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         self.assertEqual(response.status_code, 200)
 
@@ -251,6 +266,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         # Test that `page_title` is in `response.context`
         self.assertTrue("page_title" in response.context)
@@ -265,6 +281,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         self.assertTrue("the_site_name" in response.context)
         self.assertEqual(response.context["the_site_name"], "Boosts")
@@ -277,6 +294,7 @@ class InspirationalCreateViewTest(TestCase):
             username="RegisteredUser",
             password="a_test_password",
         )
+        self.assertTrue(login)
         response = self.client.get("/boosts/create/")
         self.assertTrue("hide_inspirational_create_link" in response.context)
         self.assertEqual(response.context["hide_inspirational_create_link"], True)
@@ -285,8 +303,10 @@ class InspirationalCreateViewTest(TestCase):
     #     """
     #     Test that user is redirected to login page if not logged in.
     #     """
-    #     response = self.client.get('/boosts/inspirationals/')
-    #     self.assertRedirects(response, f"{'/accounts/login/'}?next={'/boosts/inspirationals/'}")
+    #     response = self.client.get("/boosts/inspirationals/")
+    #     self.assertRedirects(
+    #         response, f"{'/accounts/login/'}?next={'/boosts/inspirationals/'}"
+    #     )
 
     # def test_logged_in_uses_correct_template(self):
     #     """
