@@ -21,7 +21,8 @@ class CustomUserAdmin(UserAdmin):
 
     def get_fieldsets(self, request, obj=None):
         """
-        Override `get_fieldsets()` to add `registration_accepted` to a `Moderator Permissions` section of `CustomUser` change view.
+        Override `get_fieldsets()` to add `registration_accepted` to a `Moderator
+        Permissions` section of `CustomUser` change view.
         """
         # Get the default `fieldsets` from the superclass `UserAdmin`:
         fieldsets = super().get_fieldsets(request, obj)
