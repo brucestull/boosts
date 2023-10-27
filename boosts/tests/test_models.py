@@ -1,17 +1,8 @@
-from django.test import TestCase
 from django.db import models
+from django.test import TestCase
 
-from boosts.models import Inspirational
 from accounts.models import CustomUser
-
-A_TEST_USERNAME = 'ACustomUser'
-A_TEST_INSPIRATIONAL_BODY = (
-    """
-    This is an Inspirational Body, here. It's a long string of text, and it
-    might not be tested for length, but it's here since we have to
-    provide a 'body' when creating a `Inspirational`.
-    """
-)
+from boosts.models import Inspirational
 
 
 class InspirationalModelTest(TestCase):
@@ -27,61 +18,67 @@ class InspirationalModelTest(TestCase):
         This specific function name `setUpTestData` is required by Django.
         """
         author = CustomUser.objects.create(
-            username=A_TEST_USERNAME,
+            username="ACustomUser",
         )
         Inspirational.objects.create(
             author=author,
-            body=A_TEST_INSPIRATIONAL_BODY,
+            body=(
+                "This is an Inspirational Body, here. It's a long string of text, "
+                "and it might not be tested for length, but it's here since we have to "
+                "provide a 'body' when creating a `Inspirational`."
+            ),
         )
 
     def test_body_help_text_attribute(self):
         """
-        `Inspirational` `body` field `help_text` attribute should be `Required. 500 characters or fewer.`.
+        `Inspirational` `body` field `help_text` attribute should be `Required. 500
+        characters or fewer.`.
         """
         inspirational = Inspirational.objects.get(id=1)
-        help_text = inspirational._meta.get_field('body').help_text
-        self.assertEqual(help_text, 'Required.')
+        help_text = inspirational._meta.get_field("body").help_text
+        self.assertEqual(help_text, "Required.")
 
     def test_body_verbose_name_attribute(self):
         """
-        `Inspirational` `body` field `verbose_name` attribute should be `Inspirational Body Text`.
+        `Inspirational` `body` field `verbose_name` attribute should be `Inspirational
+        Body Text`.
         """
         inspirational = Inspirational.objects.get(id=1)
-        verbose_name = inspirational._meta.get_field('body').verbose_name
-        self.assertEqual(verbose_name, 'Inspirational Body Text')
+        verbose_name = inspirational._meta.get_field("body").verbose_name
+        self.assertEqual(verbose_name, "Inspirational Body Text")
 
     def test_author_foreign_key(self):
         """
         `Inspirational` `author` should be a `ForeignKey` to `CustomUser`.
         """
         inspirational = Inspirational.objects.get(id=1)
-        author = inspirational._meta.get_field('author').remote_field.model
+        author = inspirational._meta.get_field("author").remote_field.model
         # Three ways to test the same thing:
-        self.assertTrue(author is CustomUser)   # Tests identity (same object)
-        self.assertIs(author, CustomUser)       # Tests identity (same object)
-        self.assertEqual(author, CustomUser)    # Tests equality (same value)
+        self.assertTrue(author is CustomUser)  # Tests identity (same object)
+        self.assertIs(author, CustomUser)  # Tests identity (same object)
+        self.assertEqual(author, CustomUser)  # Tests equality (same value)
 
     def test_author_on_delete_attribute(self):
         """
         `Inspirational` `author` field `on_delete` attribute should be `CASCADE`.
         """
         inspirational = Inspirational.objects.get(id=1)
-        on_delete = inspirational._meta.get_field('author').remote_field.on_delete
+        on_delete = inspirational._meta.get_field("author").remote_field.on_delete
         self.assertEqual(on_delete, models.CASCADE)
 
     def test_author_related_name(self):
         """
-        `Inspirational` `author` field `related_name` attribute should be `inspirationals`.
+        `Inspirational` `author` field `related_name` attribute should be
+        `inspirationals`.
         """
         inspirational = Inspirational.objects.get(id=1)
-        related_name = inspirational._meta.get_field('author').related_query_name()
-        self.assertEqual(related_name, 'inspirationals')
+        related_name = inspirational._meta.get_field("author").related_query_name()
+        self.assertEqual(related_name, "inspirationals")
 
     def test_created_auto_now_add_attribute(self):
         """
         `Inspirational` `created` field `auto_now_add` attribute should be `True`.
         """
         inspirational = Inspirational.objects.get(id=1)
-        auto_now_add = inspirational._meta.get_field('created').auto_now_add
+        auto_now_add = inspirational._meta.get_field("created").auto_now_add
         self.assertTrue(auto_now_add)
-
