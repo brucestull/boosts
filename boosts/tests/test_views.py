@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from boosts.models import Inspirational
-from boosts.forms import InspirationalForm
 from accounts.models import CustomUser
+from boosts.forms import InspirationalForm
+from boosts.models import Inspirational
 
 
 class InspirationalListViewTest(TestCase):
