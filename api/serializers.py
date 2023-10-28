@@ -5,29 +5,27 @@ from boosts.models import Inspirational
 
 
 class InspirationalSerializer(serializers.ModelSerializer):
-    
-        class Meta:
-            model = Inspirational
-            fields = [
-                'id',
-                'body',
-                'author',
-                'created',
-            ]
-            # extra_kwargs = {
-            #     'id': {'read_only': True},
-            #     'author': {'read_only': True},
-            #     'created': {'read_only': True},
-            # }
-
-
-class NestedInspirationalSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Inspirational
         fields = [
-            'id',
-            'body',
+            "id",
+            "body",
+            "author",
+            "created",
+        ]
+        # extra_kwargs = {
+        #     'id': {'read_only': True},
+        #     'author': {'read_only': True},
+        #     'created': {'read_only': True},
+        # }
+
+
+class NestedInspirationalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inspirational
+        fields = [
+            "id",
+            "body",
         ]
 
 
@@ -37,7 +35,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     """
 
     inspirationals_detail = NestedInspirationalSerializer(
-        source='inspirationals',
+        source="inspirationals",
         many=True,
         read_only=True,
     )
@@ -45,13 +43,11 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = (
-            'id',
-            'username',
-            'inspirationals_detail',
+            "id",
+            "username",
+            "inspirationals_detail",
         )
         extra_kwargs = {
-            'id': {'read_only': True},
-            'username': {'read_only': True},
+            "id": {"read_only": True},
+            "username": {"read_only": True},
         }
-            
-            

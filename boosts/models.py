@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 
 from config.settings.common import AUTH_USER_MODEL
 
@@ -27,7 +26,11 @@ class InspirationSent(models.Model):
     Model for tracking when an inspirational was sent to a beastie.
     """
 
-    # TODO: Add a field for the inspirational text so we can see what was sent, rather than just the ID. The `Inspirational` model has a `body` field that we can use but can change between the time the `Inspirational` is created and the time it is sent. We should add a field to this model that stores the inspirational text at the time it is sent.
+    # TODO: Add a field for the inspirational text so we can see what was sent, rather
+    # than just the ID. The `Inspirational` model has a `body` field that we can use but
+    # can change between the time the `Inspirational` is created and the time it is
+    # sent. We should add a field to this model that stores the inspirational text at
+    # the time it is sent.
     inspirational = models.ForeignKey(
         Inspirational,
         on_delete=models.CASCADE,
