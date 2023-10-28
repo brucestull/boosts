@@ -16,6 +16,7 @@ coverage = "==7.2.6"
 djangorestframework-simplejwt = "*"
 flake8 = "*"
 isort = "*"
+pymongo = "*"
 
 [dev-packages]
 

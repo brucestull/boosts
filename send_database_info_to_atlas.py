@@ -1,12 +1,12 @@
-import pymongo
-import sys
-import os
-
-
 ######################################################
 # Code for testing date and time inclusion:
 ######################################################
 import datetime
+import os
+import sys
+
+import pymongo
+from dotenv import load_dotenv
 
 now = datetime.datetime.now()
 date_time_string = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -15,19 +15,10 @@ print("Current date and time:", date_time_string)
 ######################################################
 
 
-
 ######################################################
 # This section is only needed if your IDE does not automatically load
 # environment variables from the .env file.
 ######################################################
-
-# os.environ['DOTENV_LOAD'] = 'False'
-
-# # If we are in a local environment, load the environment variables
-# from the .env file.
-# if os.getenv("LOCAL_ENVIRONMENT") == "TRUE":
-from dotenv import load_dotenv
-
 load_dotenv()
 ######################################################
 
@@ -38,14 +29,16 @@ mongo_cluster_url = os.getenv("MONGO_CLUSTER_URL")
 # Try to create a new client instance of `pymongo.MongoClient`:
 try:
     client = pymongo.MongoClient(
-        f"mongodb+srv://{mongo_db_username}:{mongo_db_password}@{mongo_cluster_url}/test"
+        f"mongodb+srv://{mongo_db_username}:"
+        f"{mongo_db_password}@{mongo_cluster_url}/test"
     )
     print("Connected successfully!!!")
 
 # return a friendly error if a URI error is thrown
 except pymongo.errors.ConfigurationError:
     print(
-        "An Invalid URI host error was received. Is your Atlas host name correct in your connection string?"
+        "An Invalid URI host error was received. Is your Atlas host name correct in "
+        "your connection string?"
     )
     sys.exit(1)
 
@@ -53,7 +46,8 @@ except pymongo.errors.ConfigurationError:
 db = client.boostsDatabase
 print(f"db: {db}")
 
-# Create/use a collection named "boostsCollection" which is part of the "boostsDatabase" database.
+# Create/use a collection named "boostsCollection" which is part of the "boostsDatabase"
+# database.
 boosts_collection = db["boostsCollection"]
 print(f"boosts_collection: {boosts_collection}")
 
@@ -68,7 +62,7 @@ boosts_documents = [
     },
     {
         "application": "boosts",
-    }
+    },
 ]
 print(f"boosts_documents: {boosts_documents}")
 
@@ -101,7 +95,8 @@ except pymongo.errors.OperationFailure as e:
 except pymongo.errors.ServerSelectionTimeoutError as e:
     print(f"Server selection error: {e}")
     sys.exit(1)
-# If the documents are successfully inserted, print out the number of documents inserted.
+# If the documents are successfully inserted, print out the number of documents
+# inserted.
 else:
     inserted_count = len(result.inserted_ids)
     print(f"{inserted_count} documents successfully inserted")

@@ -1,9 +1,8 @@
 from django.test import TestCase
-from django.urls import reverse_lazy
 from django.urls import reverse
 
 from accounts.models import CustomUser
-from accounts.forms import CustomUserCreationForm, CustomUserChangeForm
+from accounts.forms import CustomUserChangeForm
 
 A_TEST_USERNAME = "ACustomUser"
 A_TEST_PASSWORD = "a_test_password"
@@ -20,7 +19,8 @@ SIGN_UP_VIEW_TEMPLATE = "registration/signup.html"
 
 CUSTOM_LOGIN_VIEW_URL = "/accounts/login/"
 CUSTOM_LOGIN_VIEW_NAME = "login"
-# Django provides a default login view with a default template location so we don't need to specify it.
+# Django provides a default login view with a default template location so we don't
+# need to specify it.
 # CUSTOM_LOGIN_VIEW_TEMPLATE = "registration/login.html"
 
 USER_UPDATE_VIEW_URL = "/accounts/1/edit/"
@@ -161,7 +161,8 @@ class UserUpdateViewTest(TestCase):
 
     def test_url_redirects_for_non_authenticated_user(self):
         """
-        `accounts` update view should redirect to the `login` view for non-authenticated user.
+        `accounts` update view should redirect to the `login` view for non-authenticated
+        user.
         """
         response = self.client.get(
             reverse(

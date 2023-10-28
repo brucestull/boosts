@@ -6,10 +6,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
-
-import os
 
 from accounts.models import CustomUser
 from boosts.forms import InspirationalForm
@@ -140,7 +137,8 @@ def send_inspirational(request, pk):
         plain_text_body = f"""
                 {inspirational.created.strftime("%y-%m-%d")} - {inspirational.body}
                 \n
-                Sent from https://{current_site.domain} by {request.user.username} ({request.user.email}).
+                Sent from https://{current_site.domain} by {request.user.username}
+                ({request.user.email}).
             """
         # Send the inspirational quote to the user's beastie:
         send_mail(
@@ -152,7 +150,8 @@ def send_inspirational(request, pk):
         )
         # Send a copy of the inspirational quote to the user:
         send_mail(
-            f"You Sent an Inspirational Quote to your Beastie: {request.user.beastie.username}",
+            f"You Sent an Inspirational Quote to your Beastie: "
+            f"{request.user.beastie.username}",
             plain_text_body,
             request.user.email,
             [request.user.email],
@@ -167,7 +166,8 @@ def send_inspirational(request, pk):
         print(f"inspirational_sent: {inspirational_sent}")
         messages.success(
             request,
-            f"Sent '{inspirational.body[:20]}...' to your Beastie: {request.user.beastie.username}!",
+            f"Sent '{inspirational.body[:20]}...' to your Beastie: "
+            f"{request.user.beastie.username}!",
         )
         return redirect("boosts:inspirational-list")
     except ValidationError as e:
@@ -175,14 +175,15 @@ def send_inspirational(request, pk):
         return redirect("boosts:inspirational-list")
     except Exception as e:
         messages.error(
-            request, "An error occurred while sending the inspirational quote."
+            request, f"An error occurred while sending the inspirational quote: {e}"
         )
         return redirect("boosts:inspirational-list")
 
 
 class BretBeastieInspirationalListView(ListView):
     """
-    ListView to show a sample of `Inspirational`s for the example user named "BretBeastie".
+    ListView to show a sample of `Inspirational`s for the example user named
+    "BretBeastie".
 
     This view is accessible to users who are not logged in.
     """
@@ -194,7 +195,8 @@ class BretBeastieInspirationalListView(ListView):
     # the `Inspirationals` for the example user.
     def get_queryset(self):
         """
-        Override the `get_queryset` method to return only the `Inspirational`s for the example user named "BretBeastie".
+        Override the `get_queryset` method to return only the `Inspirational`s for the
+        example user named "BretBeastie".
         """
         demo_example_user = CustomUser.objects.get(username=self.username)
         queryset = Inspirational.objects.filter(
@@ -204,7 +206,8 @@ class BretBeastieInspirationalListView(ListView):
 
     def get_context_data(self, **kwargs):
         """
-        Override the `get_context_data` method to add the page title and the site name to the context.
+        Override the `get_context_data` method to add the page title and the site name
+        to the context.
         """
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
