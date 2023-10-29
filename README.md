@@ -1,5 +1,7 @@
 # Boosts
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main.svg?style=shield&circle-token=78bff58ef7d68a6559243b0c34cc64153c4e2e0e)](https://dl.circleci.com/status-badge/redirect/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main)
+
 * A Django application for a user to create, read, update, and delete (CRUD) "Inspirational"s.
 * A "Inspirational" is a short inspirational statement, quote, or other message that a user can post to their profile.
 * A user can receive a random "Inspirational" each day.
