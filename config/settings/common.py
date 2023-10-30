@@ -17,6 +17,11 @@ from pathlib import Path
 # value of "development" if it's not set
 ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
 
+# Set DEBUG based on the ENVIRONMENT value
+# If ENVIRONMENT is "production", DEBUG is False
+# If ENVIRONMENT is anything else, DEBUG is True
+DEBUG = ENVIRONMENT != "production"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 

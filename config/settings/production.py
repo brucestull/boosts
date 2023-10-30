@@ -1,12 +1,7 @@
 import os
 
-from distutils.util import strtobool
-
 from utils import get_database_config_variables
 from config.settings.common import *
-
-
-DEBUG = bool(strtobool(os.getenv("DEBUG", "False")))
 
 
 MIDDLEWARE = MIDDLEWARE + ["whitenoise.middleware.WhiteNoiseMiddleware"]
