@@ -1,6 +1,5 @@
 import os
 
-from distutils.util import strtobool
 from dotenv import load_dotenv
 from config.settings.common import *  # noqa: F405, F403
 
