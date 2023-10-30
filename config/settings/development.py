@@ -5,9 +5,6 @@ from dotenv import load_dotenv
 from config.settings.common import *  # noqa: F405, F403
 
 
-DEBUG = bool(strtobool(os.getenv("DEBUG", "True")))
-
-
 # Database settings:
 DATABASES = {
     "default": {
