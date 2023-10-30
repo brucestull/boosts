@@ -9,9 +9,6 @@ from config.settings.common import *
 DEBUG = bool(strtobool(os.getenv("DEBUG", "False")))
 
 
-ALLOWED_HOSTS = ["boosts.herokuapp.com"]
-
-
 MIDDLEWARE = MIDDLEWARE + ["whitenoise.middleware.WhiteNoiseMiddleware"]
 
 
