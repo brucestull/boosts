@@ -8,8 +8,6 @@ from config.settings.common import *  # noqa: F405, F403
 DEBUG = bool(strtobool(os.getenv("DEBUG", "True")))
 
 
-ALLOWED_HOSTS = ["localhost"]
-
 # Database settings:
 DATABASES = {
     "default": {

@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
+# Get the value of the ENVIRONMENT environment variable, or use a default
+# value of "development" if it's not set
+ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -133,3 +137,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ],
 }
+
+if ENVIRONMENT == "production":
+    ALLOWED_HOSTS = ["boosts.herokuapp.com"]
+else:
+    ALLOWED_HOSTS = ["localhost"]
