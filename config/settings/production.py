@@ -20,7 +20,7 @@ EMAIL_USE_TLS = True
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # Create a specific `SECRET_KEY` for production and use it in production only.
-SECRET_KEY = os.environ.get("SECRET_KEY")
+
 
 # To create a new `SECRET_KEY`:
 """

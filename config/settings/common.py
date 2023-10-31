@@ -147,6 +147,7 @@ REST_FRAMEWORK = {
 
 if ENVIRONMENT == "production":
     ALLOWED_HOSTS = ["boosts.herokuapp.com"]
+    SECRET_KEY = os.environ.get("SECRET_KEY")
     database_config_variables = get_database_config_variables(
         os.environ.get("DATABASE_URL")
     )
@@ -165,6 +166,10 @@ if ENVIRONMENT == "production":
 else:
     load_dotenv()
     ALLOWED_HOSTS = ["localhost"]
+    SECRET_KEY = os.environ.get(
+        "SECRET_KEY",
+        "django-insecure-mm8cx0al6wo$$0hhv3&eevzsst9dbw&(5p$#9k(1rx%e@j+=$l",
+    )
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
