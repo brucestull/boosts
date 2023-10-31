@@ -162,7 +162,7 @@ if ENVIRONMENT == "production":
             "PASSWORD": database_config_variables["DATABASE_PASSWORD"],
         }
     }
-
+    STATIC_ROOT = BASE_DIR / "staticfiles"
 else:
     load_dotenv()
     ALLOWED_HOSTS = ["localhost"]
@@ -176,3 +176,9 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+# To create a new `SECRET_KEY`:
+"""
+    python manage.py shell
+    from django.core.management.utils import get_random_secret_key
+    print(get_random_secret_key())
+"""
