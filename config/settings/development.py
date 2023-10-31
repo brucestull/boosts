@@ -1,19 +1,11 @@
 import os
 
-from dotenv import load_dotenv
-from config.settings.common import *  # noqa: F405, F403
+
+from config.settings.common import *  # noqa: F405, F403, F401
 
 
 # Database settings:
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
-
-load_dotenv()
 # Email sending settings:
 EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = os.getenv("EMAIL_PORT")

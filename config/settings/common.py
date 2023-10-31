@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+from dotenv import load_dotenv
 import os
 from pathlib import Path
+
+from utils import get_database_config_variables
 
 # Get the value of the ENVIRONMENT environment variable, or use a default
 # value of "development" if it's not set
@@ -145,5 +147,27 @@ REST_FRAMEWORK = {
 
 if ENVIRONMENT == "production":
     ALLOWED_HOSTS = ["boosts.herokuapp.com"]
+    database_config_variables = get_database_config_variables(
+        os.environ.get("DATABASE_URL")
+    )
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": database_config_variables["DATABASE_NAME"],
+            "HOST": database_config_variables["DATABASE_HOST"],
+            "PORT": database_config_variables["DATABASE_PORT"],
+            "USER": database_config_variables["DATABASE_USER"],
+            "PASSWORD": database_config_variables["DATABASE_PASSWORD"],
+        }
+    }
+
 else:
+    load_dotenv()
     ALLOWED_HOSTS = ["localhost"]
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
