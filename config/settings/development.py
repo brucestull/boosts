@@ -26,10 +26,7 @@ EMAIL_USE_TLS = True
 # Create a specific `SECRET_KEY` for production and use it in production only.
 
 # Get the `SECRET_KEY` environment variable.
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    "django-insecure-mm8cx0al6wo$$0hhv3&eevzsst9dbw&(5p$#9k(1rx%e@j+=$l",
-)
+
 
 # To create a new `SECRET_KEY`:
 """
