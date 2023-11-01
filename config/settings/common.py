@@ -163,6 +163,7 @@ if ENVIRONMENT == "production":
         }
     }
     STATIC_ROOT = BASE_DIR / "staticfiles"
+    MIDDLEWARE = MIDDLEWARE + ["whitenoise.middleware.WhiteNoiseMiddleware"]
 else:
     load_dotenv()
     ALLOWED_HOSTS = ["localhost"]
@@ -176,6 +177,7 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
 # To create a new `SECRET_KEY`:
 """
     python manage.py shell
