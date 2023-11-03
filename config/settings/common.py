@@ -145,6 +145,14 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Email sending settings:
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+
+# Settings determined by `ENVIRONMENT` value:
 if ENVIRONMENT == "production":
     ALLOWED_HOSTS = ["boosts.herokuapp.com"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
