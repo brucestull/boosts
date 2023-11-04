@@ -12,7 +12,7 @@ from accounts.models import CustomUser
 from boosts.forms import InspirationalForm
 from boosts.models import Inspirational
 from boosts.models import InspirationSent
-from config.settings.common import THE_SITE_NAME
+from config.settings import THE_SITE_NAME
 
 # Define the page titles:
 INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"

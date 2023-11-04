@@ -1,6 +1,6 @@
 from django.db import models
 
-from config.settings.common import AUTH_USER_MODEL
+from config.settings import AUTH_USER_MODEL
 
 
 class Inspirational(models.Model):

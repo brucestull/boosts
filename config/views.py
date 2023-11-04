@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from config.settings.common import THE_SITE_NAME
+from config.settings import THE_SITE_NAME
 
 # Define the page titles:
 INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
