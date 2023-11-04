@@ -13,7 +13,7 @@
 * [`boosts/views.py`](../boosts/views.py)
 
     ```python
-    from config.settings.common import THE_SITE_NAME
+    from config.settings import THE_SITE_NAME
 
 
     class ForbiddenView(TemplateView):
