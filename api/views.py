@@ -27,9 +27,9 @@ class InspirationalsViewSet(viewsets.ModelViewSet):
     """
 
     permission_classes = [
-        # IsAuthenticated,
-        # IsRegistrationAccepted,
-        # IsStaff,
+        IsAuthenticated,
+        IsRegistrationAccepted,
+        IsStaff,
     ]
     serializer_class = InspirationalSerializer
     queryset = Inspirational.objects.all()
