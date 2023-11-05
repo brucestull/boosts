@@ -19,6 +19,7 @@ isort = "*"
 pymongo = "*"
 celery = "*"
 redis = "*"
+django-redis = "*"
 
 [dev-packages]
 
