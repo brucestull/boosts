@@ -1,5 +1,28 @@
 # Useful Commands and Links
 
+## Celery Commands
+
+- `python -m celery worker`
+- `python -m celery -A config worker`
+- `python -m celery -A config worker -l info`
+
+## Redis Commands
+
+- `redis-server`
+- `redis-cli`
+
+## The Three Services
+1. Producer: Your Django app
+1. Message Broker: The Redis server
+1. Consumer: Your Celery app
+
+## Running the Three Services
+
+1. `python manage.py runserver`
+1. `redis-server`
+1. `python -m celery -A django_celery worker`
+    - `python -m celery -A django_celery worker -l info`
+
 ## Commands
 
 ### This Project
