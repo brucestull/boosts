@@ -1,19 +1,14 @@
-from dotenv import load_dotenv
 import os
 
 import django
 from celery import Celery
 
-#######################################
-from django.conf import settings as s
+# TODO: Find better way, is there a way to only load .env file in development?
+# Load the .env file for development environments:
+if os.getenv("ENVIRONMENT") != "production":
+    from dotenv import load_dotenv
 
-# print("s.EMAIL_HOST: ", s.EMAIL_HOST)
-# print("s.ENVIRONMENT: ", s.ENVIRONMENT)
-print("os.getenv('EMAIL_HOST'): ", os.getenv("EMAIL_HOST"))
-print("os.getenv('ENVIRONMENT'): ", os.getenv("ENVIRONMENT"))
-#######################################
-
-load_dotenv()
+    load_dotenv()
 
 # Define the default Django settings module for the 'celery' app.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
