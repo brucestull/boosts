@@ -5,6 +5,8 @@
 local_things*
 sent_emails
 
+dump.rdb
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,python,django,windows,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,django,windows,visualstudiocode
 

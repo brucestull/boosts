@@ -1,8 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
@@ -10,8 +9,8 @@ from django.views.generic.edit import CreateView
 
 from accounts.models import CustomUser
 from boosts.forms import InspirationalForm
-from boosts.models import Inspirational
-from boosts.models import InspirationSent
+from boosts.models import Inspirational, InspirationSent
+from boosts.tasks import send_boost_email_task
 from config.settings import THE_SITE_NAME
 
 # Define the page titles:
@@ -140,23 +139,41 @@ def send_inspirational(request, pk):
                 Sent from https://{current_site.domain} by {request.user.username}
                 ({request.user.email}).
             """
-        # Send the inspirational quote to the user's beastie:
-        send_mail(
-            f"Inspirational Quote from your Beastie: {request.user.username}",
+        # Extract the necessary information from the request object
+        current_site_domain = get_current_site(request).domain
+        user_username = request.user.username
+        user_email = request.user.email
+        user_beastie_email = request.user.beastie.email
+        user_beastie_username = request.user.beastie.username
+
+        # Use Celery to send the email:
+        # Pass only this serializable data to the task
+        send_boost_email_task.delay(
+            current_site_domain,
+            user_username,
+            user_email,
+            user_beastie_email,
+            user_beastie_username,
             plain_text_body,
-            request.user.email,
-            [request.user.beastie.email],
-            fail_silently=False,
         )
-        # Send a copy of the inspirational quote to the user:
-        send_mail(
-            f"You Sent an Inspirational Quote to your Beastie: "
-            f"{request.user.beastie.username}",
-            plain_text_body,
-            request.user.email,
-            [request.user.email],
-            fail_silently=False,
-        )
+
+        # # Send the inspirational quote to the user's beastie:
+        # send_mail(
+        #     f"Inspirational Quote from your Beastie: {request.user.username}",
+        #     plain_text_body,
+        #     request.user.email,
+        #     [request.user.beastie.email],
+        #     fail_silently=False,
+        # )
+        # # Send a copy of the inspirational quote to the user:
+        # send_mail(
+        #     f"You Sent an Inspirational Quote to your Beastie: "
+        #     f"{request.user.beastie.username}",
+        #     plain_text_body,
+        #     request.user.email,
+        #     [request.user.email],
+        #     fail_silently=False,
+        # )
         inspirational_sent = InspirationSent.objects.create(
             inspirational=inspirational,
             inspirational_text=inspirational.body,

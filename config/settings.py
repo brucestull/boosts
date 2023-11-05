@@ -192,3 +192,7 @@ else:
     from django.core.management.utils import get_random_secret_key
     print(get_random_secret_key())
 """
+
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

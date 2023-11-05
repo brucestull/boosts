@@ -17,6 +17,8 @@ djangorestframework-simplejwt = "*"
 flake8 = "*"
 isort = "*"
 pymongo = "*"
+celery = "*"
+redis = "*"
 
 [dev-packages]
 
