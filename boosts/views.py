@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView
 from accounts.models import CustomUser
 from boosts.forms import InspirationalForm
 from boosts.models import Inspirational, InspirationSent
-from boosts.tasks import send_boost_email_task
+from boosts.tasks import send_inspirational_to_beastie
 from config.settings import THE_SITE_NAME
 
 # Define the page titles:
@@ -148,7 +148,7 @@ def send_inspirational(request, pk):
 
         # Use Celery to send the email:
         # Pass only this serializable data to the task
-        send_boost_email_task.delay(
+        send_inspirational_to_beastie.delay(
             current_site_domain,
             user_username,
             user_email,

@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 
 
 @shared_task()
-def send_boost_email_task(
+def send_inspirational_to_beastie(
     current_site_domain,
     user_username,
     user_email,
