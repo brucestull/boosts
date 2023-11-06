@@ -54,7 +54,7 @@ class InspirationSent(models.Model):
     def __str__(self):
         return (
             f"Inspiration #{self.inspirational.id} sent to Beastie "
-            "#{self.beastie.id} at {self.sent_at.strftime('%Y-%m-%d %H:%M:%S')}"
+            f"#{self.beastie.id} at {self.sent_at.strftime('%Y-%m-%d %H:%M:%S')}"
         )
 
     class Meta:
