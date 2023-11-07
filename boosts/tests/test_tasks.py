@@ -37,12 +37,14 @@
 #         )
 #         self.assertEqual(beastie_email_call[1]["message"], message)
 #         self.assertEqual(beastie_email_call[1]["from_email"], user_email)
-#         self.assertEqual(beastie_email_call[1]["recipient_list"], [user_beastie_email])
+#         self.assertEqual(
+#             beastie_email_call[1]["recipient_list"], [user_beastie_email]
+#         )  # noqa: E501
 
 #         # Assert the details of the second call (to the user's email)
 #         self.assertEqual(
 #             user_email_call[1]["subject"],
-#             f"You Sent an Inspirational Quote to your Beastie: {user_beastie_username}",
+#             f"You Sent an Inspirational Quote to your Beastie: {user_beastie_username}",  # noqa: E501
 #         )
 #         self.assertEqual(user_email_call[1]["message"], message)
 #         self.assertEqual(user_email_call[1]["from_email"], user_email)
