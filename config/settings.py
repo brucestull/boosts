@@ -1,3 +1,4 @@
+# config/settings.py
 """
 Django settings for config project.
 
@@ -196,3 +197,4 @@ else:
 # Celery settings
 CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+CELERY_TASK_ALWAYS_EAGER = True
