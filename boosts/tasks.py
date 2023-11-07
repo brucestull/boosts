@@ -4,7 +4,6 @@ from django.core.mail import send_mail
 
 @shared_task()
 def send_inspirational_to_beastie(
-    current_site_domain,
     user_username,
     user_email,
     user_beastie_email,
@@ -12,7 +11,7 @@ def send_inspirational_to_beastie(
     message,
 ):
     """
-    Sends an email.
+    Sends the `Inspirational` to User's `Beastie` and CC to User's own email.
     """
     # Send the inspirational quote to the user's beastie:
     send_mail(

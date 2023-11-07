@@ -140,7 +140,6 @@ def send_inspirational(request, pk):
                 ({request.user.email}).
             """
         # Extract the necessary information from the request object
-        current_site_domain = get_current_site(request).domain
         user_username = request.user.username
         user_email = request.user.email
         user_beastie_email = request.user.beastie.email
@@ -149,7 +148,6 @@ def send_inspirational(request, pk):
         # Use Celery to send the email:
         # Pass only this serializable data to the task
         send_inspirational_to_beastie.delay(
-            current_site_domain,
             user_username,
             user_email,
             user_beastie_email,
