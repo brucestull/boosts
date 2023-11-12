@@ -1,13 +1,14 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 
 from accounts.models import CustomUser
+from base.mixins import RegistrationAcceptedMixin
 from boosts.forms import InspirationalForm
 from boosts.models import Inspirational, InspirationSent
 from boosts.tasks import send_inspirational_to_beastie
@@ -18,11 +19,7 @@ INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
 INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
 
 
-class InspirationalListView(
-    LoginRequiredMixin,
-    UserPassesTestMixin,
-    ListView,
-):
+class InspirationalListView(RegistrationAcceptedMixin, ListView):
     """
     ListView for the Inspirational model.
 
@@ -50,16 +47,6 @@ class InspirationalListView(
     paginate_by = 10
     queryset = None
 
-    def test_func(self):
-        """
-        Test if user has `registration_accepted=True`. Only users who pass this
-        test can access this view.
-
-        This function is used by the `UserPassesTestMixin` to control access to
-        this view.
-        """
-        return self.request.user.registration_accepted
-
     # We are not using 'model = Inspirational' attribute since we want only
     # the `Inspirationals` for the current user.
     def get_queryset(self):
@@ -84,11 +71,7 @@ class InspirationalListView(
         return context
 
 
-class InspirationalCreateView(
-    LoginRequiredMixin,
-    UserPassesTestMixin,
-    CreateView,
-):
+class InspirationalCreateView(RegistrationAcceptedMixin, CreateView):
     """
     CreateView for the Inspirational model.
     """
@@ -97,21 +80,18 @@ class InspirationalCreateView(
     template_name = "boosts/inspirational_form.html"
     success_url = reverse_lazy("boosts:inspirational-list")
 
-    def test_func(self):
-        """
-        Test if user has `registration_accepted=True`. Only users who pass
-        this test can access this view.
-
-        This function is used by the `UserPassesTestMixin` to control access
-        to this view.
-        """
-        return self.request.user.registration_accepted
-
     def form_valid(self, form):
+        """
+        Override `form_valid` to set the author of the Inspirational to the current
+        user.
+        """
         form.instance.author = self.request.user
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
+        """
+        Override the `get_context_data` method to add the page title and the site name
+        """
         context = super().get_context_data(**kwargs)
         context["page_title"] = INSPIRATIONAL_CREATE_PAGE_TITLE
         context["the_site_name"] = THE_SITE_NAME
@@ -121,24 +101,44 @@ class InspirationalCreateView(
         return context
 
 
-# TODO: Add permissions for this view, using decorators.
+# TODO: Possible refactor permissions for this view, using decorators.
 def send_inspirational(request, pk):
     """
     Send an inspirational quote to the User's Beastie (a User which has
     been designated as the User's Beastie).
     """
+    # Check if user is authenticated:
+    if not request.user.is_authenticated:
+        messages.error(
+            request,
+            "You must be logged in to send an inspirational quote to your Beastie.",
+        )
+        # return redirect("boosts:inspirational-list")
+        return HttpResponseForbidden(
+            "403 Forbidden: You must be logged in to send an inspirational quote to "
+            "your Beastie."
+        )
+    # Check if user's registration is accepted:
+    if not request.user.registration_accepted:
+        messages.error(
+            request,
+            "Your registration has not been accepted yet. "
+            "You cannot send an inspirational quote to your Beastie.",
+        )
+        return HttpResponseForbidden(
+            "403 Forbidden: Your registration has not been accepted yet."
+        )
     try:
         # Get the inspirational quote from the pk sent in the URL:
         inspirational = get_object_or_404(Inspirational, pk=pk)
         # Get the current site domain. This will resolve to a localhost in DEV
         # and to the production domain in PROD:
         current_site = get_current_site(request)
-        plain_text_body = f"""
-                {inspirational.created.strftime("%y-%m-%d")} - {inspirational.body}
-                \n
-                Sent from https://{current_site.domain} by {request.user.username}
-                ({request.user.email}).
-            """
+        plain_text_body = (
+            f"{inspirational.created.strftime('%y-%m-%d')} - {inspirational.body}\n"
+            f"Sent from https://{current_site.domain} by {request.user.username} "
+            f"({request.user.email})."
+        )
         # Extract the necessary information from the request object
         user_username = request.user.username
         user_email = request.user.email
@@ -155,23 +155,6 @@ def send_inspirational(request, pk):
             plain_text_body,
         )
 
-        # # Send the inspirational quote to the user's beastie:
-        # send_mail(
-        #     f"Inspirational Quote from your Beastie: {request.user.username}",
-        #     plain_text_body,
-        #     request.user.email,
-        #     [request.user.beastie.email],
-        #     fail_silently=False,
-        # )
-        # # Send a copy of the inspirational quote to the user:
-        # send_mail(
-        #     f"You Sent an Inspirational Quote to your Beastie: "
-        #     f"{request.user.beastie.username}",
-        #     plain_text_body,
-        #     request.user.email,
-        #     [request.user.email],
-        #     fail_silently=False,
-        # )
         inspirational_sent = InspirationSent.objects.create(
             inspirational=inspirational,
             inspirational_text=inspirational.body,
