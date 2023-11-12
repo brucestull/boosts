@@ -156,7 +156,7 @@ EMAIL_USE_TLS = True
 
 # Settings determined by `ENVIRONMENT` value:
 if ENVIRONMENT == "production":
-    ALLOWED_HOSTS = ["boosts.herokuapp.com"]
+    ALLOWED_HOSTS = [os.getenv("THIS_HOST")]
     SECRET_KEY = os.environ.get("SECRET_KEY")
     database_config_variables = get_database_config_variables(
         os.environ.get("DATABASE_URL")
