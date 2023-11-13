@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView
 from accounts.models import CustomUser
 from base.mixins import RegistrationAcceptedMixin
 from boosts.forms import InspirationalForm
-from boosts.models import Inspirational, InspirationSent
+from boosts.models import Inspirational, InspirationalSent
 from boosts.tasks import send_inspirational_to_beastie
 from config.settings import THE_SITE_NAME
 
@@ -155,7 +155,7 @@ def send_inspirational(request, pk):
             plain_text_body,
         )
 
-        inspirational_sent = InspirationSent.objects.create(
+        inspirational_sent = InspirationalSent.objects.create(
             inspirational=inspirational,
             inspirational_text=inspirational.body,
             sender=request.user,

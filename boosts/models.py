@@ -21,7 +21,7 @@ class Inspirational(models.Model):
         return self.author.username + " : " + str(self.id) + " - " + self.body[:24]
 
 
-class InspirationSent(models.Model):
+class InspirationalSent(models.Model):
     """
     Model for tracking when an inspirational was sent to a beastie.
     """
@@ -41,7 +41,7 @@ class InspirationSent(models.Model):
     sender = models.ForeignKey(
         AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="inspirations_sent",
+        related_name="inspirationals_sent",
     )
     beastie = models.ForeignKey(
         AUTH_USER_MODEL,
