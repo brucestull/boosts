@@ -14,10 +14,6 @@ from boosts.models import Inspirational, InspirationalSent
 from boosts.tasks import send_inspirational_to_beastie
 from config.settings import THE_SITE_NAME
 
-# Define the page titles:
-INSPIRATIONAL_LIST_PAGE_TITLE = "Inspirationals"
-INSPIRATIONAL_CREATE_PAGE_TITLE = "Create an Inspirational"
-
 
 class InspirationalListView(RegistrationAcceptedMixin, ListView):
     """
@@ -65,7 +61,7 @@ class InspirationalListView(RegistrationAcceptedMixin, ListView):
         `the_site_name`, and `name_in_heading` to the context.
         """
         context = super().get_context_data(**kwargs)
-        context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
+        context["page_title"] = "Inspirationals"
         context["the_site_name"] = THE_SITE_NAME
         context["name_in_heading"] = self.request.user.username
         return context
@@ -93,7 +89,7 @@ class InspirationalCreateView(RegistrationAcceptedMixin, CreateView):
         Override the `get_context_data` method to add the page title and the site name
         """
         context = super().get_context_data(**kwargs)
-        context["page_title"] = INSPIRATIONAL_CREATE_PAGE_TITLE
+        context["page_title"] = "Create an Inspirational"
         context["the_site_name"] = THE_SITE_NAME
         # Hide the "Create Inspirational" link in the navbar since we are
         # already on the page.
@@ -208,7 +204,7 @@ class BretBeastieInspirationalListView(ListView):
         to the context.
         """
         context = super().get_context_data(**kwargs)
-        context["page_title"] = INSPIRATIONAL_LIST_PAGE_TITLE
+        context["page_title"] = "Inspirationals"
         context["the_site_name"] = THE_SITE_NAME
         context["name_in_heading"] = self.username
         return context

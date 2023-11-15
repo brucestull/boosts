@@ -299,64 +299,167 @@ class InspirationalCreateViewTest(TestCase):
         self.assertTrue("hide_inspirational_create_link" in response.context)
         self.assertEqual(response.context["hide_inspirational_create_link"], True)
 
-    # def test_redirect_if_not_logged_in(self):
+
+class SendInspirationalViewTest(TestCase):
+    """
+    Test `send_inspirational` view.
+    """
+
+    pass
+    # @classmethod
+    # def setUpTestData(cls):
     #     """
-    #     Test that user is redirected to login page if not logged in.
+    #     Create test data.
     #     """
-    #     response = self.client.get("/boosts/inspirationals/")
+    #     # Create users for testing.
+    #     cls.user_registration_accepted_true = CustomUser.objects.create_user(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #         registration_accepted=True,
+    #     )
+    #     cls.user_registration_accepted_false = CustomUser.objects.create_user(
+    #         username="UnregisteredUser",
+    #         password="a_test_password",
+    #         registration_accepted=False,
+    #     )
+    #     cls.user_beastie = CustomUser.objects.create_user(
+    #         username="Beastie",
+    #         password="a_test_password",
+    #         registration_accepted=True,
+    #     )
+    #     # Create inspirationals for testing.
+    #     for inspirational_id in range(13):
+    #         Inspirational.objects.create(
+    #             author=cls.user_registration_accepted_true,
+    #             body=f"Body for inspirational {inspirational_id}",
+    #         )
+
+    # def test_view_redirects_to_login_if_user_is_not_authenticated(self):
+    #     """
+    #     View should redirect user to login view if user is not authenticated.
+    #     """
+    #     response = self.client.get("/boosts/send_inspirational/1/")
     #     self.assertRedirects(
-    #         response, f"{'/accounts/login/'}?next={'/boosts/inspirationals/'}"
+    #         response,
+    #         f"{'/accounts/login/'}?next={'/boosts/send_inspirational/1/'}",
     #     )
 
-    # def test_logged_in_uses_correct_template(self):
+    # def test_view_returns_403_if_user_registration_accepted_false(self):
     #     """
-    #     Test that the correct template is used when user is logged in.
-    #     """
-    #     login = self.client.login(
-    #         username="RegisteredUser",
-    #         password="a_test_password",
-    #     )
-    #     response = self.client.get('/boosts/inspirationals/')
-    #     self.assertEqual(
-    #         str(response.context["user"]), "RegisteredUser"
-    #     )
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'boosts/inspirational_list.html')
-
-    # def test_logged_in_with_correct_user(self):
-    #     """
-    #     Test that the correct user is logged in.
-    #     """
-    #     login = self.client.login(
-    #         username="RegisteredUser",
-    #         password="a_test_password",
-    #     )
-    #     response = self.client.get('/boosts/inspirationals/')
-    #     self.assertEqual(
-    #         str(response.context["user"]), "RegisteredUser"
-    #     )
-
-    # def test_logged_in_with_incorrect_user(self):
-    #     """
-    #     Test that the incorrect user is not logged in.
+    #     View should return 403 if user registration_accepted False.
     #     """
     #     login = self.client.login(
     #         username="UnregisteredUser",
     #         password="a_test_password",
     #     )
-    #     response = self.client.get('/boosts/inspirationals/')
-    #     self.assertEqual(
-    #         str(response.context["user"]), "UnregisteredUser"
-    #     )
+    #     self.assertTrue(login)
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     self.assertEqual(response.status_code, 403)
 
-    # def test_logged_in_with_correct_user_has_correct_page_title(self):
+    # def test_view_returns_200_if_user_registration_accepted_true(self):
     #     """
-    #     Test that the correct page title is used when the correct user is logged in.
+    #     View should return 200 if user registration_accepted True.
     #     """
     #     login = self.client.login(
     #         username="RegisteredUser",
     #         password="a_test_password",
     #     )
-    #     response = self.client.get('/boosts/inspirationals/')
+    #     self.assertTrue(login)
+    #     response = self.client.get("/boosts/send_inspirational/1/")
     #     self.assertEqual(response.status_code, 200)
-    #     self.assertContains(response, "Inspirational List")
+
+    # def test_view_returns_404_if_inspirational_does_not_exist(self):
+    #     """
+    #     View should return 404 if `Inspirational` does not exist.
+    #     """
+    #     login = self.client.login(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that does not exist.
+    #     response = self.client.get("/boosts/send_inspirational/999/")
+    #     self.assertEqual(response.status_code, 404)
+
+    # def test_view_returns_404_if_inspirational_exists_but_user_is_not_author(self):
+    #     """
+    #     View should return 404 if `Inspirational` exists but user is not author.
+    #     """
+    #     login = self.client.login(
+    #         username="Beastie",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that exists but the user is not the author.
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     self.assertEqual(response.status_code, 404)
+
+    # def test_view_returns_200_if_inspirational_exists_and_user_is_author(self):
+    #     """
+    #     View should return 200 if `Inspirational` exists and user is author.
+    #     """
+    #     login = self.client.login(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that exists and the user is the author.
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_view_uses_proper_template(self):
+    #     """
+    #     View should use the proper template.
+    #     """
+    #     login = self.client.login(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that exists and the user is the author.
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     self.assertTemplateUsed(response, "boosts/send_inspirational.html")
+
+    # def test_view_context_contains_page_title(self):
+    #     """
+    #     View context should contain page title.
+    #     """
+    #     login = self.client.login(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that exists and the user is the author.
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     # Test that `page_title` is in `response.context`
+    #     self.assertTrue("page_title" in response.context)
+    #     # Test that `page_title` is equal to "Send an Inspirational"
+    #     self.assertEqual(response.context["page_title"], "Send an Inspirational")
+
+    # def test_view_context_contains_the_site_name(self):
+    #     """
+    #     View context should contain the site name.
+    #     """
+    #     login = self.client.login(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that exists and the user is the author.
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     self.assertTrue("the_site_name" in response.context)
+    #     self.assertEqual(response.context["the_site_name"], "Boosts")
+
+    # def test_view_context_contains_hide_inspirational_create_link(self):
+    #     """
+    #     View context should contain hide_inspirational_create_link.
+    #     """
+    #     login = self.client.login(
+    #         username="RegisteredUser",
+    #         password="a_test_password",
+    #     )
+    #     self.assertTrue(login)
+    #     # Test with an `Inspirational` that exists and the user is the author.
+    #     response = self.client.get("/boosts/send_inspirational/1/")
+    #     self.assertTrue("hide_inspirational_create_link" in response.context)
+    #     self.assertEqual(response.context["hide_inspirational_create_link"], True)
