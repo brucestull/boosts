@@ -144,8 +144,8 @@ class InspirationalSentModelTest(TestCase):
 
     def test_inspirational_text_verbose_name_attribute(self):
         """
-        `InspirationalSent` `inspirational_text` field `verbose_name` attribute should be
-        `Inspirational Text Sent to Beastie`.
+        `InspirationalSent` `inspirational_text` field `verbose_name` attribute should
+        be `Inspirational Text Sent to Beastie`.
         """
         inspirational_sent = InspirationalSent.objects.get(id=1)
         verbose_name = inspirational_sent._meta.get_field(
