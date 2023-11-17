@@ -1,8 +1,8 @@
 # boosts / tests / test_tasks.py
 # from unittest.mock import patch
-from django.test import TestCase
-from boosts.tasks import send_inspirational_to_beastie
-from unittest import mock
+# from django.test import TestCase
+# from boosts.tasks import send_inspirational_to_beastie
+# from unittest import mock
 
 
 # class SendInspirationalToBeastieTest(TestCase):
