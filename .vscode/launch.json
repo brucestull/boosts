@@ -26,5 +26,17 @@
             "django": true,
             "justMyCode": true
         },
+        {
+            "name": "Python: Django Test - test_tasks",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "test",
+                "boosts.tests.test_tasks"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
     ]
 }
