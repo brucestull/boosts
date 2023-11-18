@@ -1,9 +1,11 @@
-from django.test import TestCase
+from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
 from accounts.models import CustomUser
 from boosts.forms import InspirationalForm
 from boosts.models import Inspirational
+from boosts.views import InspirationalListView
 
 
 class InspirationalListViewTest(TestCase):
@@ -16,6 +18,7 @@ class InspirationalListViewTest(TestCase):
         """
         Create `CustomUser`s and `Inspirational`s for testing.
         """
+        cls.factory = RequestFactory()
         # Create users for testing.
         cls.user_registration_accepted_true = CustomUser.objects.create_user(
             username="RegisteredUser",
@@ -158,6 +161,34 @@ class InspirationalListViewTest(TestCase):
         self.assertTrue(login)
         response = self.client.get("/boosts/inspirationals/")
         self.assertEqual(response.status_code, 200)
+
+    def test_view_for_unauthenticated_user(self):
+        """
+        View should return 302 if user is not authenticated.
+        """
+        response = self.client.get("/boosts/inspirationals/")
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_get_queryset_method_when_user_unauthenticated(self):
+        """
+        View `get_queryset` should return `Inspirational.objects.none()` if user is not
+        authenticated.
+        """
+        # Create an instance of a GET request for testing the `get_queryset` method:
+        request = self.factory.get("/boosts/inspirationals/")
+
+        # Simulate an unauthenticated user
+        request.user = AnonymousUser()
+
+        # Instantiate the view with the mock request
+        view = InspirationalListView()
+        view.setup(request)
+
+        # Call get_queryset directly
+        queryset = view.get_queryset()
+
+        # Perform your test assertions
+        self.assertEqual(queryset.count(), 0)
 
 
 class InspirationalCreateViewTest(TestCase):
