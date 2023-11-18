@@ -26,5 +26,18 @@
             "django": true,
             "justMyCode": true
         },
+        // This is a good example of how to run a single test file.
+        {
+            "name": "Python: Django Test - test_tasks",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "test",
+                "boosts.tests.test_tasks"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
     ]
 }
