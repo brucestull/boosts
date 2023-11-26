@@ -20,6 +20,7 @@ pymongo = "*"
 celery = "*"
 redis = "*"
 django-redis = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 

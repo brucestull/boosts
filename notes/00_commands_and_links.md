@@ -16,12 +16,41 @@
 1. Message Broker: The Redis server
 1. Consumer: Your Celery app
 
-## Running the Three Services
+## Running the Services
 
 1. `python manage.py runserver`
 1. `redis-server`
-1. `python -m celery -A django_celery worker`
-    - `python -m celery -A django_celery worker -l info`
+1. `python -m celery -A config worker -l debug`
+1. `python -m celery -A config beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler`
+  - Uses the Django database to store the schedule
+
+
+## Using `CELERY_BEAT_SCHEDULE`:
+
+```python
+from datetime import timedelta
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'myapp.tasks.my_task',
+        'schedule': timedelta(minutes=5),
+        'args': (16, 16)
+    },
+    'another-task-name': {
+        'task': 'myapp.tasks.another_task',
+        'schedule': crontab(hour=7, minute=30, day_of_week=1),
+    },
+    # You can add as many tasks as you want here
+}
+```
+
+- `python -m celery -A config beat`
+  - `python -m celery -A config beat -l debug`
+
+
+## Inspecting Celery Registered Tasks
+- `celery -A config inspect registered`
 
 ## Commands
 
