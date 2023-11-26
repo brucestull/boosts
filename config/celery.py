@@ -3,13 +3,7 @@ import os
 
 import django
 from celery import Celery
-
-# TODO: Find better way, is there a way to only load .env file in development?
-# Load the .env file for development environments:
-if os.getenv("ENVIRONMENT") != "production":
-    from dotenv import load_dotenv
-
-    load_dotenv()
+from django.conf import settings
 
 # Define the default Django settings module for the 'celery' app.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
@@ -23,4 +17,9 @@ django.setup()
 # https://docs.celeryq.dev/en/stable/reference/celery.html#celery.Celery
 app = Celery("config")
 app.config_from_object("django.conf:settings", namespace="CELERY")
+# Set utc false to use local time:
+app.conf.enable_utc = False
+# Set the timezone to use to convert to and from local time:
+app.conf.timezone = settings.TIME_ZONE
+
 app.autodiscover_tasks()
