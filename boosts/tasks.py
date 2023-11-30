@@ -7,6 +7,8 @@ from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.core.mail import send_mail
 
+from .models import Inspirational
+
 if settings.ENVIRONMENT == "development":
     from dotenv import load_dotenv
 
@@ -48,6 +50,19 @@ def send_inspirational_to_beastie(
         fail_silently=False,
     )
     logger.info("LOGGER: Sent inspirational quote cc to user.")
+
+
+@shared_task
+def send_inspirational_to_self(user_id):
+    user_inspiration = Inspirational.objects.filter(user_id=user_id).first()
+    if user_inspiration:
+        message = user_inspiration.body
+        send_mail(
+            subject="Your Daily Inspiration",
+            message=message,
+            from_email="from@example.com",
+            recipient_list=[user_inspiration.user.email],
+        )
 
 
 @shared_task
