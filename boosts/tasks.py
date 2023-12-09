@@ -30,7 +30,7 @@ def send_inspirational_to_beastie(
     """
     Sends the `Inspirational` to User's `Beastie` and CC to User's own email.
     """
-    logger.info("LOGGER: Sending inspirational quote to beastie.")
+    logger.info("\nLOGGER: Sending inspirational quote to beastie.")
     # Send the inspirational quote to the user's beastie:
     send_mail(
         f"Inspirational Quote from your Beastie: {user_username}",
