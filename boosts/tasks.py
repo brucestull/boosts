@@ -72,10 +72,10 @@ def send_test_email():
     Sends a test email to the admin.
     """
     send_mail(
-        "Test Email from Boosts",
-        "This is the test email body.",
-        TEST_EMAIL_ADDRESS,
-        [TEST_EMAIL_ADDRESS],
+        subject="Test Email from Boosts",
+        message="This is the test email body.",
+        from_email=TEST_EMAIL_ADDRESS,
+        recipient_list=[TEST_EMAIL_ADDRESS],
     )
     logger.info("Sent test email.")
 
