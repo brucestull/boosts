@@ -54,14 +54,15 @@ def send_inspirational_to_beastie(
 
 @shared_task
 def send_inspirational_to_self(user_id):
-    user_inspiration = Inspirational.objects.filter(user_id=user_id).first()
-    if user_inspiration:
-        message = user_inspiration.body
+    user_inspirational = Inspirational.objects.filter(user_id=user_id).first()
+    user_email = user_inspirational.author.email
+    if user_inspirational:
+        message = user_inspirational.body
         send_mail(
             subject="Your Daily Inspiration",
             message=message,
-            from_email="from@example.com",
-            recipient_list=[user_inspiration.user.email],
+            from_email=user_email,
+            recipient_list=[user_email],
         )
 
 
