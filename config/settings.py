@@ -188,6 +188,8 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+    # Use console email backend for development instead of third-party mail service:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # To create a new `SECRET_KEY`:
 """
