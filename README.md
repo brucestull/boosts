@@ -1,88 +1,106 @@
 # Boosts
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main.svg?style=shield&circle-token=78bff58ef7d68a6559243b0c34cc64153c4e2e0e)](https://dl.circleci.com/status-badge/redirect/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main)
+## Description
 
-* A Django application for a user to create, read, update, and delete (CRUD) "Inspirational"s.
-* A "Inspirational" is a short inspirational statement, quote, or other message that a user can post to their profile.
-* A user can receive a random "Inspirational" each day.
-* A user can send an email or text message to receive a random "Inspirational" at any time.
-* A user can share their "Inspirational"s with other users.
+A Django application for storing inspirational statements (called `Boosts`) and displaying them for the user. The user can share their `Boosts` with other users (their `Beasty`).
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main.svg?style=shield&circle-token=78bff58ef7d68a6559243b0c34cc64153c4e2e0e)](https://dl.circleci.com/status-badge/redirect/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main)
 
 ## Table of Contents
 
-## Items Which are not Best Practices
+- [Boosts](#boosts)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Screenshots or GIFs](#screenshots-or-gifs)
+  - [Technologies Used](#technologies-used)
+  - [Features](#features)
+    - [Current Features](#current-features)
+    - [Upcoming Features](#upcoming-features)
+  - [Known Issues and Areas for Improvement](#known-issues-and-areas-for-improvement)
+  - [Prerequisites, Environment Variables, and Running the Application](#prerequisites-environment-variables-and-running-the-application)
+    - [Prerequisites](#prerequisites)
+    - [Environment Variables](#environment-variables)
+    - [Running the Application](#running-the-application)
+  - [Usage](#usage)
+  - [Contribution Guidelines](#contribution-guidelines)
+  - [License](#license)
+  - [Acknowledgements](#acknowledgements)
+  - [Contact Information](#contact-information)
 
-### `config/settings/development.py` and `config/settings/production.py` uses imports of `*` from `config/settings/common.py`.
-* This may be fixed in future when project is migrated to use either `pydantic` or some other coding conventions for settings.
-* Even though this works as needed, it seems that it is usually not good to import `*` from a module.
+## Screenshots or GIFs
 
-## Production Links
+## Technologies Used
 
-## Django Applications
+## Features
 
-## Models
+### Current Features
 
-- [x] CustomUser
-- [x] Inspirational
+- Celery for asynchronous task of sending emails.
+- Custom `403` view and template.
+- `RegistrationAcceptedMixin` to reduce repeating `test_func` code in `LoginRequiredMixin` and `UserPassesTestMixin`.
+- User can send a `Boost` to another user.
+- `utils.get_database_config_variables` function to get database configuration variables from Heroku database URL environment variable.
 
-## Views
-* `CustomUser`:
-    - [x] Create
-    - [x] Read
-    - [x] Update
-* `Inspirational`:
-    - [x] Create
-    - [ ] Read
-    - [x] List
-    - [ ] Update
-    - [ ] Delete
-    - [x] Share
+### Upcoming Features
 
-## Templates
+- Add specific view for un-registered users.
+- User can choose a time of day to receive a random `Boost` from their list.
+- User can choose a time of day to receive a random `Boost` from their `Beastie`s' list.
+- User can send a text to receive a random `Boost` from their list.
+- User can have multiple `Beastie`s and can select which `Beastie` to send a `Boost` to.
+- User can send an invite to be `Beastie`s with another user.
+- Django `BaseCommand` to populate the database with sample `Boost`s.
 
-## Interesting Features
+## Known Issues and Areas for Improvement
 
-* [Custom 403 Server Error Page](./notes/custom_403.md)
-* `DEBUG` logic:
-    ```python
-    DEBUG = bool(strtobool(os.getenv("DEBUG", "False")))
-    ```
+- User has to have their `Beastie` assigned in Django Admin.
+- Need to have `BretBeastie`'s `Boosts` in the database for app to function properly.
 
-## New Knowledge
+## Prerequisites, Environment Variables, and Running the Application
 
-## PyPI Packages
+### Prerequisites
 
-## Resources
+### Environment Variables
 
-### [`pypi`](https://pypi.org/)
+- All Environments
 
-* <https://pypi.org/project/Django/>
-* <https://pypi.org/project/djangorestframework/>
-* <https://pypi.org/project/docutils/>
-* <https://pypi.org/project/gunicorn/>
-* <https://pypi.org/project/whitenoise/>
-* <https://pypi.org/project/psycopg2/>
-* <https://pypi.org/project/tzdata/>
-* <https://pypi.org/project/python-dotenv/>
+- Development
+    - `TEST_EMAIL_ADDRESS`
 
-### CSS Framework
+- Production
+    - `SECRET_KEY`
+    - `ENVIRONMENT`
+    - `EMAIL_HOST`
+    - `EMAIL_HOST_USER`
+    - `EMAIL_HOST_PASSWORD`
+    - `EMAIL_PORT`
 
-* <https://getbootstrap.com/>
-* [Get started with Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-* <https://getbootstrap.com/docs/5.3/components/>
-    * <https://getbootstrap.com/docs/5.3/components/navbar/>
-    * <https://getbootstrap.com/docs/5.3/components/pagination/>
-* <https://getbootstrap.com/docs/5.3/forms/>
-    * <https://getbootstrap.com/docs/5.3/forms/form-control/>
-    * <https://getbootstrap.com/docs/5.3/forms/layout/>
+### Running the Application
 
-### Django
+1. Clone the repository
+1. `cd` into the project directory
+1. Create a `pipenv` virtual environment and install dependencies
+1. Activate the virtual environment
+1. Create a `.env` file in the project root directory
+1. Perform database migrations
+1. Running the tests
 
-* [`django.views.generic.edit.CreateView`](https://docs.djangoproject.com/en/4.1/ref/class-based-views/generic-editing/#django.views.generic.edit.CreateView)
-* [The Forms API](https://docs.djangoproject.com/en/4.1/ref/forms/api/)
-* [`django.forms.Field`](https://docs.djangoproject.com/en/4.1/ref/forms/fields/#django.forms.Field)
+## Usage
 
-### Third Party Resources
+- User registration
+- User login
+- Assign `Beastie` to user
+- User `Boost` list
+- User send a `Boost` to another user
 
-* [Django DeleteView - www.pythontutorial.net](https://www.pythontutorial.net/django-tutorial/django-deleteview/)
-* [Django REST Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
+## Contribution Guidelines
+
+## License
+
+## Acknowledgements
+
+- WSV Custom User Model
+
+## Contact Information
+
+- [Back to Table of Contents](#table-of-contents)
