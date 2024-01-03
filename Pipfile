@@ -18,9 +18,9 @@ flake8 = "*"
 isort = "*"
 pymongo = "*"
 celery = "*"
-redis = "*"
-django-redis = "*"
-django-celery-beat = "*"
+redis = "==5.0.1"
+django-redis = "==5.4.0"
+django-celery-beat = "==2.5.0"
 
 [dev-packages]
 
