@@ -2,7 +2,7 @@
 
 ## Description
 
-A Django application for storing inspirational statements (called `Boosts`) and displaying them for the user. The user can share their `Boosts` with other users (their `Beasty`).
+A Django application for storing inspirational statements (called `Boosts`) and displaying them for the user. The user can share their `Boosts` with other users (their `Beastie`).
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main.svg?style=shield&circle-token=78bff58ef7d68a6559243b0c34cc64153c4e2e0e)](https://dl.circleci.com/status-badge/redirect/circleci/Y1ZCzLfk7VvFxn1NaACyjS/ENyXaR4r8up5rVUZaAc7so/tree/main)
 
