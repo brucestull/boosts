@@ -104,3 +104,5 @@ A Django application for storing inspirational statements (called `Boosts`) and 
 ## Contact Information
 
 - [Back to Table of Contents](#table-of-contents)
+
+<a href=mailto:FlynntKnapp@gmail.com>FlynntKnapp@gmail.com</a>
